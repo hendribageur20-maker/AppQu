@@ -337,10 +337,80 @@ export const ArsitekturView: React.FC = () => {
                   <div>CREATE TABLE businesses (</div>
                   <div className="pl-4">id UUID PRIMARY KEY,</div>
                   <div className="pl-4">owner_id UUID REFERENCES users(id),</div>
-                  <div className="pl-4">name VARCHAR(150) NOT NULL, -- Bakso Qu 1.0</div>
+                  <div className="pl-4">name VARCHAR(150) NOT NULL, -- Bakso Qu 1.0 / BengkelQu</div>
                   <div className="pl-4">category VARCHAR(50) NOT NULL,</div>
-                  <div className="pl-4">pos_module_key VARCHAR(50), -- 'baksoqu' (Master Switch flag)</div>
+                  <div className="pl-4">pos_module_key VARCHAR(50), -- 'baksoqu' | 'bengkelqu' (Master Switch flags)</div>
                   <div className="pl-4">rating DECIMAL(2,1) DEFAULT 5.0</div>
+                  <div>);</div>
+                  <div className="pt-2 text-stone-400">-- Tabel BengkelQu (SPK & Smart Service Estimator)</div>
+                  <div>CREATE TABLE service_work_orders (</div>
+                  <div className="pl-4">id UUID PRIMARY KEY,</div>
+                  <div className="pl-4">spk_number VARCHAR(50) UNIQUE NOT NULL,</div>
+                  <div className="pl-4">plate_number VARCHAR(20) NOT NULL,</div>
+                  <div className="pl-4">vehicle_brand VARCHAR(50) NOT NULL,</div>
+                  <div className="pl-4">current_km INT NOT NULL,</div>
+                  <div className="pl-4">checklist JSONB NOT NULL, -- bodi, lampu, rem, bensin</div>
+                  <div className="pl-4">items JSONB NOT NULL, -- jasa & sparepart</div>
+                  <div className="pl-4">up_selling JSONB,</div>
+                  <div className="pl-4">status VARCHAR(20) DEFAULT 'antre', -- antre, dikerjakan, selesai, diambil</div>
+                  <div className="pl-4">total DECIMAL(12,2) NOT NULL</div>
+                  <div>);</div>
+                  <div className="pt-2 text-stone-400">-- Tabel BengkelQu Suku Cadang & Re-Order Point</div>
+                  <div>CREATE TABLE bengkel_parts (</div>
+                  <div className="pl-4">id UUID PRIMARY KEY,</div>
+                  <div className="pl-4">code VARCHAR(50) UNIQUE NOT NULL,</div>
+                  <div className="pl-4">name VARCHAR(150) NOT NULL,</div>
+                  <div className="pl-4">category VARCHAR(50) NOT NULL, -- oli, cvt, rem, busi, filter, cairan</div>
+                  <div className="pl-4">stock INT NOT NULL DEFAULT 0,</div>
+                  <div className="pl-4">min_stock INT NOT NULL DEFAULT 3, -- Smart Re-Order Point Alert</div>
+                  <div className="pl-4">sell_price DECIMAL(12,2) NOT NULL</div>
+                  <div>);</div>
+                  <div className="pt-2 text-stone-400">-- Tabel KlinikQu Kasir & Layanan Medis</div>
+                  <div>CREATE TABLE klinik_services (</div>
+                  <div className="pl-4">id UUID PRIMARY KEY,</div>
+                  <div className="pl-4">name VARCHAR(150) NOT NULL,</div>
+                  <div className="pl-4">description TEXT,</div>
+                  <div className="pl-4">category VARCHAR(50) NOT NULL, -- konsultasi, tindakan, lab, obat</div>
+                  <div className="pl-4">price DECIMAL(12,2) NOT NULL</div>
+                  <div>);</div>
+                  <div className="pt-2 text-stone-400">-- Tabel KlinikQu Kwitansi Medis & Rekam Tindakan</div>
+                  <div>CREATE TABLE klinik_invoices (</div>
+                  <div className="pl-4">id UUID PRIMARY KEY,</div>
+                  <div className="pl-4">invoice_number VARCHAR(50) UNIQUE NOT NULL,</div>
+                  <div className="pl-4">patient_name VARCHAR(150) NOT NULL,</div>
+                  <div className="pl-4">patient_nik VARCHAR(20),</div>
+                  <div className="pl-4">patient_block VARCHAR(50),</div>
+                  <div className="pl-4">doctor_name VARCHAR(150) NOT NULL,</div>
+                  <div className="pl-4">items JSONB NOT NULL, -- list tindakan/obat & harga</div>
+                  <div className="pl-4">total DECIMAL(12,2) NOT NULL,</div>
+                  <div className="pl-4">payment_method VARCHAR(30) NOT NULL, -- tunai, qris, bpjs_subsidi</div>
+                  <div className="pl-4">notes TEXT,</div>
+                  <div className="pl-4">created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()</div>
+                  <div>);</div>
+                  <div className="pt-2 text-stone-400">-- Tabel RitelQu Kasir & Toko Kelontong Warga</div>
+                  <div>CREATE TABLE ritel_products (</div>
+                  <div className="pl-4">id UUID PRIMARY KEY,</div>
+                  <div className="pl-4">sku VARCHAR(50) UNIQUE NOT NULL,</div>
+                  <div className="pl-4">name VARCHAR(150) NOT NULL,</div>
+                  <div className="pl-4">category VARCHAR(50) NOT NULL, -- sembako, makanan, minuman, kebersihan, bumbu</div>
+                  <div className="pl-4">price DECIMAL(12,2) NOT NULL,</div>
+                  <div className="pl-4">stock INT NOT NULL DEFAULT 0,</div>
+                  <div className="pl-4">unit VARCHAR(20) DEFAULT 'Pcs',</div>
+                  <div className="pl-4">min_stock INT DEFAULT 5</div>
+                  <div>);</div>
+                  <div className="pt-2 text-stone-400">-- Tabel RitelQu Transaksi Penjualan & Struk</div>
+                  <div>CREATE TABLE ritel_invoices (</div>
+                  <div className="pl-4">id UUID PRIMARY KEY,</div>
+                  <div className="pl-4">invoice_number VARCHAR(50) UNIQUE NOT NULL,</div>
+                  <div className="pl-4">cashier_name VARCHAR(100) NOT NULL,</div>
+                  <div className="pl-4">customer_name VARCHAR(150),</div>
+                  <div className="pl-4">items JSONB NOT NULL, -- rincian item, sku, qty, harga</div>
+                  <div className="pl-4">total DECIMAL(12,2) NOT NULL,</div>
+                  <div className="pl-4">cash_given DECIMAL(12,2),</div>
+                  <div className="pl-4">change DECIMAL(12,2),</div>
+                  <div className="pl-4">payment_method VARCHAR(20) NOT NULL, -- tunai, qris, bon_warga</div>
+                  <div className="pl-4">status VARCHAR(20) DEFAULT 'lunas',</div>
+                  <div className="pl-4">created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()</div>
                   <div>);</div>
                 </div>
               </div>

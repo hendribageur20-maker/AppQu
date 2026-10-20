@@ -230,14 +230,14 @@ export interface LocalProduct {
 export interface LocalBusiness {
   id: string;
   name: string;
-  category: 'kuliner' | 'jasa' | 'sembako' | 'laundry' | 'kerajinan';
+  category: 'kuliner' | 'jasa' | 'sembako' | 'laundry' | 'kerajinan' | 'otomotif' | 'kesehatan';
   ownerName: string;
   blockNumber: string;
   phone: string;
   description: string;
   rating: number;
   isPosActive?: boolean;
-  posModuleKey?: 'baksoqu';
+  posModuleKey?: 'baksoqu' | 'bengkelqu' | 'klinikqu' | 'ritelqu';
   badge?: string;
   imageUrl?: string;
   products: LocalProduct[];
@@ -312,3 +312,152 @@ export interface PiketTask {
   shiftTime: string;
   isDone: boolean;
 }
+
+// ==========================================
+// 5. BENGKELQU: ASISTEN PINTAR & OPERASIONAL BENGKEL (USAHAQU)
+// ==========================================
+export interface BengkelPart {
+  id: string;
+  code: string;
+  name: string;
+  category: 'oli' | 'cvt' | 'rem' | 'busi' | 'filter' | 'aki' | 'ban' | 'cairan' | 'jasa';
+  stock: number;
+  minStock: number; // Smart Re-Order Point
+  costPrice: number;
+  sellPrice: number;
+  unit: string;
+  suitableFor: string;
+}
+
+export interface VehicleChecklist {
+  bodiLecet: boolean;
+  lampuUtama: boolean;
+  remDepanBelakang: boolean;
+  indikatorBensin: 'E' | '1/4' | '1/2' | '3/4' | 'F';
+  klakson: boolean;
+  tekananBan: boolean;
+}
+
+export interface ServiceWorkOrder {
+  id: string;
+  spkNumber: string;
+  customerName: string;
+  customerPhone: string;
+  customerBlock?: string;
+  plateNumber: string;
+  vehicleBrand: string;
+  vehicleModel: string;
+  currentKm: number;
+  complaintNotes: string;
+  checklist: VehicleChecklist;
+  items: {
+    id: string;
+    partId?: string;
+    name: string;
+    category: 'jasa' | 'sparepart' | 'upsell';
+    price: number;
+    qty: number;
+  }[];
+  upSellingOffered: {
+    id: string;
+    name: string;
+    price: number;
+    reason: string;
+    accepted: boolean;
+  }[];
+  total: number;
+  status: 'antre' | 'dikerjakan' | 'selesai' | 'diambil';
+  mechanicName: string;
+  createdAt: string;
+  finishedAt?: string;
+  nextOilChangeKm?: number;
+}
+
+// ==========================================
+// 6. KLINIKQU: KASIR & LAYANAN MEDIS (USAHAQU)
+// ==========================================
+export interface KlinikServiceItem {
+  id: string;
+  name: string;
+  description: string;
+  category: 'konsultasi' | 'tindakan' | 'laboratorium' | 'obat' | 'paket';
+  price: number;
+}
+
+export interface KlinikPatientRecord {
+  id: string;
+  name: string;
+  nik: string;
+  blockNumber: string;
+  gender: 'L' | 'P';
+  age: number;
+  phone: string;
+  bloodType: string;
+  allergies?: string;
+  lastVisit: string;
+  totalVisits: number;
+}
+
+export interface KlinikBillItem {
+  id: string;
+  serviceId: string;
+  name: string;
+  price: number;
+  qty: number;
+}
+
+export interface KlinikInvoice {
+  id: string;
+  invoiceNumber: string;
+  patientName: string;
+  patientNik?: string;
+  patientBlock: string;
+  doctorName: string;
+  items: KlinikBillItem[];
+  total: number;
+  paymentMethod: 'tunai' | 'qris' | 'bpjs_subsidi';
+  status: 'lunas' | 'antre';
+  createdAt: string;
+  notes?: string;
+}
+
+// ==========================================
+// RITELQU: KASIR & TOKO KELONTONG WARGA
+// ==========================================
+export interface RitelProduct {
+  id: string;
+  sku: string;
+  name: string;
+  category: 'sembako' | 'minuman' | 'makanan' | 'kebersihan' | 'rokok_korek' | 'bumbu';
+  price: number;
+  stock: number;
+  unit: string;
+  minStock?: number;
+}
+
+export interface RitelCartItem {
+  id: string;
+  productId: string;
+  sku: string;
+  name: string;
+  price: number;
+  qty: number;
+  unit: string;
+}
+
+export interface RitelInvoice {
+  id: string;
+  invoiceNumber: string;
+  cashierName: string;
+  customerName?: string;
+  items: RitelCartItem[];
+  total: number;
+  cashGiven?: number;
+  change?: number;
+  paymentMethod: 'tunai' | 'qris' | 'bon_warga';
+  status: 'lunas' | 'bon';
+  createdAt: string;
+  notes?: string;
+}
+
+

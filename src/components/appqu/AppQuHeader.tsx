@@ -20,6 +20,9 @@ interface AppQuHeaderProps {
   onChangeUser: (user: UserProfile) => void;
   onOpenPanic: () => void;
   onSwitchToBaksoQu: () => void;
+  onSwitchToBengkelQu?: () => void;
+  onSwitchToKlinikQu?: () => void;
+  onSwitchToRitelQu?: () => void;
   onOpenArsitektur: () => void;
   activeModuleName: string;
 }
@@ -29,6 +32,9 @@ export const AppQuHeader: React.FC<AppQuHeaderProps> = ({
   onChangeUser,
   onOpenPanic,
   onSwitchToBaksoQu,
+  onSwitchToBengkelQu,
+  onSwitchToKlinikQu,
+  onSwitchToRitelQu,
   onOpenArsitektur,
   activeModuleName,
 }) => {
@@ -141,7 +147,46 @@ export const AppQuHeader: React.FC<AppQuHeaderProps> = ({
                 );
               })}
 
-              <div className="pt-1 border-t border-stone-800">
+              <div className="pt-1 border-t border-stone-800 space-y-0.5">
+                {onSwitchToBengkelQu && (
+                  <button
+                    onClick={() => {
+                      setIsRoleDropdownOpen(false);
+                      onSwitchToBengkelQu();
+                    }}
+                    className="w-full text-left px-3 py-1.5 rounded-lg text-amber-300 hover:bg-stone-800 flex items-center gap-1.5 text-[11px] font-semibold"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                    <span>Buka BengkelQu (100% Gratis)</span>
+                  </button>
+                )}
+
+                {onSwitchToKlinikQu && (
+                  <button
+                    onClick={() => {
+                      setIsRoleDropdownOpen(false);
+                      onSwitchToKlinikQu();
+                    }}
+                    className="w-full text-left px-3 py-1.5 rounded-lg text-emerald-300 hover:bg-stone-800 flex items-center gap-1.5 text-[11px] font-semibold"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>Buka KlinikQu (Faskes Medis)</span>
+                  </button>
+                )}
+
+                {onSwitchToRitelQu && (
+                  <button
+                    onClick={() => {
+                      setIsRoleDropdownOpen(false);
+                      onSwitchToRitelQu();
+                    }}
+                    className="w-full text-left px-3 py-1.5 rounded-lg text-blue-300 hover:bg-stone-800 flex items-center gap-1.5 text-[11px] font-semibold"
+                  >
+                    <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                    <span>Buka RitelQu (Toko Kelontong)</span>
+                  </button>
+                )}
+
                 <button
                   onClick={() => {
                     setIsRoleDropdownOpen(false);

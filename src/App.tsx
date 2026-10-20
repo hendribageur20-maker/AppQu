@@ -22,6 +22,9 @@ import { WargaView } from './components/appqu/WargaView';
 import { UsahaQuView } from './components/appqu/UsahaQuView';
 import { SiagaQuView } from './components/appqu/SiagaQuView';
 import { ArsitekturView } from './components/appqu/ArsitekturView';
+import { BengkelQuView } from './components/bengkel/BengkelQuView';
+import { KlinikQuView } from './components/klinik/KlinikQuView';
+import { RitelQuView } from './components/ritel/RitelQuView';
 
 import {
   TableItem,
@@ -51,9 +54,9 @@ import { PrinterService } from './services/printer';
 
 export default function App() {
   // ====================================================
-  // MASTER APPLICATION MODE: 'appqu' (Main Ecosystem) vs 'baksoqu' (POS Mode)
+  // MASTER APPLICATION MODE: 'appqu' | 'baksoqu' | 'bengkelqu' | 'klinikqu' | 'ritelqu'
   // ====================================================
-  const [appMode, setAppMode] = useState<'appqu' | 'baksoqu'>('appqu');
+  const [appMode, setAppMode] = useState<'appqu' | 'baksoqu' | 'bengkelqu' | 'klinikqu' | 'ritelqu'>('appqu');
 
   // AppQu Active Module
   const [activeAppQuModule, setActiveAppQuModule] = useState<
@@ -162,6 +165,24 @@ export default function App() {
     setAppMode('baksoqu');
     setActiveBaksoTab('kasir');
     showNotification('Beralih ke Master Switch POS: Bakso Qu 1.0 (Unit Usaha Aktif)');
+  };
+
+  // Switch to BengkelQu Smart Workshop System
+  const handleSwitchToBengkelQu = () => {
+    setAppMode('bengkelqu');
+    showNotification('Beralih ke BengkelQu: Asisten Pintar & Bengkel Warga RT 04 (100% Gratis)');
+  };
+
+  // Switch to KlinikQu Medical POS & Clinic System
+  const handleSwitchToKlinikQu = () => {
+    setAppMode('klinikqu');
+    showNotification('Beralih ke KlinikQu: Kasir & Layanan Medis Faskes Warga RT 04');
+  };
+
+  // Switch to RitelQu Grocery & Retail POS System
+  const handleSwitchToRitelQu = () => {
+    setAppMode('ritelqu');
+    showNotification('Beralih ke RitelQu: Kasir & Toko Kelontong Warga RT 04');
   };
 
   // Return to AppQu Ecosystem
@@ -435,7 +456,19 @@ export default function App() {
   };
 
   return (
-    <AndroidFrame appLabel={appMode === 'appqu' ? 'AppQu' : 'BaksoQu'}>
+    <AndroidFrame
+      appLabel={
+        appMode === 'appqu'
+          ? 'AppQu'
+          : appMode === 'baksoqu'
+          ? 'BaksoQu'
+          : appMode === 'bengkelqu'
+          ? 'BengkelQu'
+          : appMode === 'klinikqu'
+          ? 'KlinikQu'
+          : 'RitelQu'
+      }
+    >
       {/* Toast Notification Banner */}
       {notification && (
         <div className="absolute top-14 left-4 right-4 z-50 bg-stone-900 text-amber-300 px-3.5 py-2 rounded-2xl shadow-xl border border-amber-500/40 text-xs font-semibold flex items-center justify-between animate-in fade-in slide-in-from-top duration-200">
@@ -454,6 +487,9 @@ export default function App() {
             onChangeUser={handleChangeUser}
             onOpenPanic={() => setActiveAppQuModule('siaga')}
             onSwitchToBaksoQu={handleSwitchToBaksoQu}
+            onSwitchToBengkelQu={handleSwitchToBengkelQu}
+            onSwitchToKlinikQu={handleSwitchToKlinikQu}
+            onSwitchToRitelQu={handleSwitchToRitelQu}
             onOpenArsitektur={() => setActiveAppQuModule('arsitektur')}
             activeModuleName={getAppQuModuleName()}
           />
@@ -504,6 +540,9 @@ export default function App() {
                 currentUser={currentUser}
                 businesses={businesses}
                 onSwitchToBaksoQu={handleSwitchToBaksoQu}
+                onSwitchToBengkelQu={handleSwitchToBengkelQu}
+                onSwitchToKlinikQu={handleSwitchToKlinikQu}
+                onSwitchToRitelQu={handleSwitchToRitelQu}
                 onUpdateBusinesses={(newB) => {
                   setBusinesses(newB);
                   AppQuStorageService.saveBusinesses(newB);
@@ -744,6 +783,39 @@ export default function App() {
             isKitchenSlip={receiptModalState.isKitchenSlip}
           />
         </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* 3. BENGKELQU SMART WORKSHOP (SWITCH MASTER USAHAQU)       */}
+      {/* ========================================================= */}
+      {appMode === 'bengkelqu' && (
+        <BengkelQuView
+          currentUser={currentUser}
+          onBackToAppQu={handleReturnToAppQu}
+          showNotification={showNotification}
+        />
+      )}
+
+      {/* ========================================================= */}
+      {/* 4. KLINIKQU MEDICAL CLINIC (SWITCH MASTER USAHAQU)        */}
+      {/* ========================================================= */}
+      {appMode === 'klinikqu' && (
+        <KlinikQuView
+          currentUser={currentUser}
+          onBackToAppQu={handleReturnToAppQu}
+          showNotification={showNotification}
+        />
+      )}
+
+      {/* ========================================================= */}
+      {/* 5. RITELQU TOKO KELONTONG (SWITCH MASTER USAHAQU)         */}
+      {/* ========================================================= */}
+      {appMode === 'ritelqu' && (
+        <RitelQuView
+          currentUser={currentUser}
+          onBackToAppQu={handleReturnToAppQu}
+          showNotification={showNotification}
+        />
       )}
     </AndroidFrame>
   );
