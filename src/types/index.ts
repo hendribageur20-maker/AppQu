@@ -430,9 +430,23 @@ export interface RitelProduct {
   name: string;
   category: 'sembako' | 'minuman' | 'makanan' | 'kebersihan' | 'rokok_korek' | 'bumbu';
   price: number;
+  buyPrice?: number;
   stock: number;
   unit: string;
   minStock?: number;
+  expiryDate?: string;
+  promoType?: 'none' | 'percent' | 'nominal' | 'buy1get1' | 'wholesale';
+  promoValue?: number;
+}
+
+export interface RitelCustomer {
+  id: string;
+  name: string;
+  phone: string;
+  blockNumber: string;
+  points: number;
+  totalDebt: number; // Catatan Bon Hutang
+  notes?: string;
 }
 
 export interface RitelCartItem {
@@ -450,11 +464,12 @@ export interface RitelInvoice {
   invoiceNumber: string;
   cashierName: string;
   customerName?: string;
+  customerPhone?: string;
   items: RitelCartItem[];
   total: number;
   cashGiven?: number;
   change?: number;
-  paymentMethod: 'tunai' | 'qris' | 'bon_warga';
+  paymentMethod: 'tunai' | 'qris' | 'transfer' | 'bon_warga';
   status: 'lunas' | 'bon';
   createdAt: string;
   notes?: string;

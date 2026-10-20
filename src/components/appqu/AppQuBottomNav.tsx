@@ -61,7 +61,7 @@ export const AppQuBottomNav: React.FC<AppQuBottomNavProps> = ({
   ];
 
   return (
-    <nav className="w-full bg-stone-900 border-t border-stone-800 text-stone-400 px-1.5 py-1.5 flex items-center justify-around shrink-0 z-30 shadow-xl select-none">
+    <nav className="w-full bg-stone-900 border-t border-stone-800 text-stone-400 px-2 py-2 flex items-center justify-around shrink-0 z-30 shadow-xl select-none h-14">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeModule === tab.id;
@@ -69,6 +69,8 @@ export const AppQuBottomNav: React.FC<AppQuBottomNavProps> = ({
         return (
           <button
             key={tab.id}
+            title={`${tab.label} (${tab.sublabel})`}
+            aria-label={tab.label}
             onClick={() => {
               if (navigator.vibrate) {
                 try {
@@ -77,27 +79,27 @@ export const AppQuBottomNav: React.FC<AppQuBottomNavProps> = ({
               }
               onSelectModule(tab.id);
             }}
-            className={`relative flex flex-col items-center justify-center flex-1 py-1 px-1 rounded-xl transition-all duration-150 active:scale-95 ${
+            className={`relative flex items-center justify-center flex-1 h-full py-1 px-1 rounded-xl transition-all duration-150 active:scale-95 cursor-pointer ${
               isActive
-                ? 'text-emerald-400 font-bold'
-                : 'text-stone-400 hover:text-stone-200'
+                ? 'text-emerald-400 font-bold bg-stone-800/60'
+                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/30'
             }`}
           >
             {/* Top Active Indicator */}
             {isActive && (
-              <span className="absolute -top-1.5 w-7 h-0.5 bg-emerald-400 rounded-full"></span>
+              <span className="absolute -top-2 w-8 h-1 bg-emerald-400 rounded-full"></span>
             )}
 
-            <div className="relative">
+            <div className="relative flex items-center justify-center">
               <Icon
-                className={`w-5 h-5 transition-transform ${
+                className={`w-6 h-6 transition-transform ${
                   isActive ? 'scale-110 text-emerald-400' : 'text-stone-400'
                 }`}
               />
 
               {tab.badge && (
                 <span
-                  className={`absolute -top-1 -right-3 text-white text-[8px] font-bold px-1 py-0.2 rounded-full flex items-center justify-center ring-1 ring-stone-900 ${
+                  className={`absolute -top-1.5 -right-3 text-white text-[9px] font-bold px-1.5 py-0.2 rounded-full flex items-center justify-center ring-1 ring-stone-900 ${
                     tab.badgeColor ? tab.badgeColor : 'bg-red-600'
                   }`}
                 >
@@ -105,13 +107,6 @@ export const AppQuBottomNav: React.FC<AppQuBottomNavProps> = ({
                 </span>
               )}
             </div>
-
-            <span className="text-[10px] mt-0.5 tracking-tight leading-none">
-              {tab.label}
-            </span>
-            <span className="text-[8px] text-stone-400 font-normal leading-none mt-0.5">
-              {tab.sublabel}
-            </span>
           </button>
         );
       })}

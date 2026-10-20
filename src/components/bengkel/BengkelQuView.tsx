@@ -290,28 +290,28 @@ export const BengkelQuView: React.FC<BengkelQuViewProps> = ({
       {/* ========================================================= */}
       {/* TOP HEADER: BENGKELQU WITH APPQU GREEN ACCENT */}
       {/* ========================================================= */}
-      <header className="sticky top-0 z-30 bg-emerald-900 text-white px-3.5 py-2.5 flex items-center justify-between shrink-0 shadow-sm border-b border-emerald-800">
-        <div className="flex items-center gap-2">
+      <header className="sticky top-0 z-30 bg-emerald-900 text-white px-4 py-3 flex items-center justify-between shrink-0 shadow-sm border-b border-emerald-800">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={onBackToAppQu}
-            className="h-8 px-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white flex items-center gap-1 text-xs font-bold transition-all active:scale-95"
+            className="h-9 px-3 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white flex items-center gap-1.5 text-sm font-bold transition-all active:scale-95"
             title="Kembali ke AppQu"
           >
             <span>◀ AppQu</span>
           </button>
 
-          <div className="flex items-center gap-1.5">
-            <div className="w-7 h-7 rounded-lg bg-emerald-500/30 flex items-center justify-center font-bold text-amber-300">
-              <Wrench className="w-4 h-4" />
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/30 flex items-center justify-center font-bold text-amber-300">
+              <Wrench className="w-5 h-5" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5 leading-none">
-                <span className="text-sm font-black text-white">BengkelQu</span>
-                <span className="text-[9px] bg-amber-400 text-stone-950 font-bold px-1.5 py-0.2 rounded">
+              <div className="flex items-center gap-2 leading-none">
+                <span className="text-xl font-black text-white tracking-tight">BengkelQu</span>
+                <span className="text-xs bg-amber-400 text-stone-950 font-extrabold px-2 py-0.5 rounded-full">
                   100% Gratis
                 </span>
               </div>
-              <p className="text-[10px] text-emerald-200 mt-0.5">
+              <p className="text-sm text-emerald-200 mt-1">
                 Sistem Operasional & Asisten Pintar Bengkel Warga RT 04
               </p>
             </div>
@@ -320,10 +320,10 @@ export const BengkelQuView: React.FC<BengkelQuViewProps> = ({
 
         <button
           onClick={() => setActiveTab('spk_baru')}
-          className="h-8 px-3 bg-amber-400 hover:bg-amber-300 text-stone-950 rounded-xl font-bold text-xs flex items-center gap-1 shadow-xs transition-transform active:scale-95"
+          className="h-9 px-3.5 bg-amber-400 hover:bg-amber-300 text-stone-950 rounded-xl font-extrabold text-sm flex items-center gap-1.5 shadow-xs transition-transform active:scale-95 cursor-pointer"
           title="Buat SPK Servis Baru"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-4 h-4" />
           <span className="hidden xs:inline">SPK Baru</span>
         </button>
       </header>
@@ -331,7 +331,7 @@ export const BengkelQuView: React.FC<BengkelQuViewProps> = ({
       {/* ========================================================= */}
       {/* MINIMALIST SUB-MENU (CLEAN BORDER-BOTTOM, NO HEAVY BOXES) */}
       {/* ========================================================= */}
-      <div className="bg-white border-b border-stone-200 px-3 py-1 flex items-center justify-between shrink-0">
+      <div className="bg-white border-b border-stone-200 px-3 py-1.5 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full py-1">
           {[
             { id: 'antrean', label: 'Antrean Servis', icon: Wrench, count: workOrders.filter((o) => o.status !== 'diambil').length },
@@ -346,21 +346,21 @@ export const BengkelQuView: React.FC<BengkelQuViewProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-all ${
+                className={`py-2 px-3.5 rounded-xl text-sm font-bold flex items-center gap-2 shrink-0 transition-all cursor-pointer ${
                   isActive
-                    ? 'text-emerald-800 border-b-2 border-emerald-700 font-bold bg-emerald-50/50'
+                    ? 'text-emerald-900 border-b-2 border-emerald-700 bg-emerald-50/70 font-extrabold'
                     : 'text-stone-600 hover:text-stone-900 hover:bg-stone-50'
                 }`}
               >
                 <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-700' : 'text-stone-400'}`} />
                 <span>{tab.label}</span>
                 {tab.count !== undefined && tab.count > 0 && (
-                  <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 rounded-full">
+                  <span className="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
                     {tab.count}
                   </span>
                 )}
                 {tab.alert && (
-                  <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse"></span>
                 )}
               </button>
             );
@@ -393,15 +393,15 @@ export const BengkelQuView: React.FC<BengkelQuViewProps> = ({
                 return (
                   <div
                     key={order.id}
-                    className="p-3.5 sm:p-4 hover:bg-stone-50/70 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                    className="p-4 hover:bg-stone-50/80 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3.5"
                   >
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-[11px] font-bold text-stone-500">
+                        <span className="font-mono text-sm font-bold text-stone-500">
                           {order.spkNumber}
                         </span>
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                          className={`text-xs font-bold px-2.5 py-0.5 rounded-md ${
                             isFinished
                               ? 'bg-emerald-100 text-emerald-800'
                               : isWorking
@@ -411,35 +411,35 @@ export const BengkelQuView: React.FC<BengkelQuViewProps> = ({
                         >
                           {order.status.toUpperCase()}
                         </span>
-                        <span className="text-xs font-mono font-bold text-stone-900 bg-stone-100 px-2 py-0.5 rounded">
+                        <span className="text-sm font-mono font-black text-stone-900 bg-stone-100 px-2.5 py-0.5 rounded">
                           {order.plateNumber}
                         </span>
                       </div>
 
-                      <div className="text-sm font-bold text-stone-900">
+                      <div className="text-lg font-bold text-stone-900">
                         {order.customerName}{' '}
-                        <span className="text-xs font-normal text-stone-500">
+                        <span className="text-sm font-normal text-stone-500">
                           ({order.customerBlock || 'Warga'}) · {order.vehicleBrand} {order.vehicleModel}
                         </span>
                       </div>
 
-                      <div className="text-xs text-stone-600 flex items-center gap-3">
-                        <span className="font-mono text-[11px]">
+                      <div className="text-base text-stone-600 flex items-center gap-3">
+                        <span className="font-mono text-sm">
                           KM: {order.currentKm.toLocaleString('id-ID')}
                         </span>
                         <span>·</span>
-                        <span className="text-stone-500">Montir: {order.mechanicName}</span>
+                        <span className="text-stone-600 font-medium">Montir: {order.mechanicName}</span>
                       </div>
 
-                      <p className="text-[11px] text-stone-500 italic line-clamp-1">
+                      <p className="text-base text-stone-600 italic line-clamp-1">
                         "{order.complaintNotes}"
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between sm:justify-end gap-2.5 pt-2 sm:pt-0 border-t sm:border-0 border-stone-100">
+                    <div className="flex items-center justify-between sm:justify-end gap-3.5 pt-2 sm:pt-0 border-t sm:border-0 border-stone-100">
                       <div className="text-left sm:text-right">
-                        <div className="text-[10px] text-stone-400">Total Biaya</div>
-                        <div className="text-sm font-bold font-mono text-emerald-800">
+                        <div className="text-xs uppercase tracking-wider font-semibold text-stone-400">Total Biaya</div>
+                        <div className="text-xl sm:text-2xl font-black font-mono text-emerald-850">
                           Rp {order.total.toLocaleString('id-ID')}
                         </div>
                       </div>

@@ -231,17 +231,17 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
         <div className="flex items-center gap-2.5">
           <button
             onClick={onBackToAppQu}
-            className="h-7 px-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-emerald-100 flex items-center gap-1 text-[11px] font-bold transition-all active:scale-95"
+            className="h-8 px-2.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-emerald-100 flex items-center gap-1 text-sm font-bold transition-all active:scale-95"
             title="Kembali ke AppQu"
           >
             <span>◀ AppQu</span>
           </button>
 
           <div>
-            <h1 className="font-bold text-base tracking-wide uppercase leading-tight">
+            <h1 className="font-bold text-xl tracking-wide uppercase leading-tight">
               KlinikQu
             </h1>
-            <p className="text-[11px] text-emerald-100 font-normal" id="device-status">
+            <p className="text-sm text-emerald-100 font-normal" id="device-status">
               ID Perangkat: {deviceId}
             </p>
           </div>
@@ -249,7 +249,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
 
         <div className="text-right flex items-center gap-2">
           <span
-            className="text-[11px] bg-emerald-700/80 px-2.5 py-1 rounded-full font-medium"
+            className="text-sm bg-emerald-700/80 px-3 py-1 rounded-full font-medium"
             id="cabang-label"
           >
             Cabang Utama
@@ -267,31 +267,31 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
         {activeNav === 'kasir' && (
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Quick Patient & Doctor Strip */}
-            <div className="bg-slate-50 border-b border-slate-100 px-5 py-2.5 flex items-center justify-between text-xs shrink-0">
-              <div className="flex items-center gap-1.5 truncate mr-2">
-                <User className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+            <div className="bg-slate-50 border-b border-slate-100 px-5 py-3 flex items-center justify-between text-base shrink-0">
+              <div className="flex items-center gap-2 truncate mr-2">
+                <User className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span className="text-slate-500">Pasien:</span>
                 <span className="font-bold text-slate-900 truncate">
                   {selectedPatient ? selectedPatient.name : 'Pasien Umum'}
                 </span>
                 {selectedPatient && (
-                  <span className="text-[10px] text-slate-400">
+                  <span className="text-sm text-slate-400">
                     ({selectedPatient.blockNumber})
                   </span>
                 )}
               </div>
 
-              <div className="flex items-center gap-1.5 shrink-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={() => setActiveNav('pasien')}
-                  className="text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 underline"
+                  className="text-base font-semibold text-emerald-600 hover:text-emerald-700 underline"
                 >
                   Ganti Pasien
                 </button>
                 {Object.keys(selectedServices).length > 0 && (
                   <button
                     onClick={handleClearCart}
-                    className="text-[10px] text-slate-400 hover:text-red-500 ml-1"
+                    className="text-sm text-slate-400 hover:text-red-500 ml-1 font-semibold"
                     title="Reset Pilihan"
                   >
                     Reset
@@ -301,7 +301,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
             </div>
 
             {/* Category Filter Chips */}
-            <div className="px-5 py-2 border-b border-slate-100 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 text-xs">
+            <div className="px-5 py-2.5 border-b border-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar shrink-0 text-base">
               {[
                 { id: 'all', label: 'Semua Layanan' },
                 { id: 'konsultasi', label: 'Konsultasi' },
@@ -312,7 +312,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                 <button
                   key={c.id}
                   onClick={() => setActiveCategory(c.id)}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors ${
+                  className={`px-4 py-1.5 rounded-full text-base font-semibold whitespace-nowrap transition-colors ${
                     activeCategory === c.id
                       ? 'bg-emerald-600 text-white'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -323,9 +323,9 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
               ))}
             </div>
 
-            {/* Area List View Minimalis (Tanpa Kotak-kotak, Huruf Besar Tegas Jelas, divide-y divide-slate-100) */}
+            {/* Area List View Minimalis (Tanpa Kotak-kotak, Huruf Besar Tegas Jelas 16px - 24px, divide-y divide-slate-100) */}
             <section
-              className="flex-1 overflow-y-auto px-5 py-2 divide-y divide-slate-100"
+              className="flex-1 overflow-y-auto px-5 py-3 divide-y divide-slate-100"
               id="list-container"
             >
               {filteredServices.map((srv) => {
@@ -336,29 +336,29 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                   <div
                     key={srv.id}
                     onClick={() => handleToggleService(srv.id)}
-                    className={`py-3.5 flex justify-between items-center cursor-pointer transition-colors ${
+                    className={`py-4 flex justify-between items-center cursor-pointer transition-colors ${
                       isSelected ? 'bg-emerald-50/40 -mx-5 px-5' : 'hover:bg-slate-50/50'
                     }`}
                   >
                     <div className="pr-3 flex-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-sm text-slate-900 uppercase tracking-tight">
+                        <h3 className="font-bold text-[19px] text-slate-900 uppercase tracking-tight leading-snug">
                           {srv.name}
                         </h3>
                         {isSelected && (
-                          <span className="text-[10px] bg-emerald-600 text-white font-bold px-1.5 py-0.2 rounded-full">
+                          <span className="text-xs bg-emerald-600 text-white font-bold px-2 py-0.5 rounded-full">
                             Dipilih (x{qty})
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                      <p className="text-base text-slate-600 mt-1 line-clamp-1">
                         {srv.description}
                       </p>
                     </div>
 
                     <div className="text-right shrink-0 flex items-center gap-3">
                       <div>
-                        <span className="font-bold text-sm text-emerald-600 font-mono">
+                        <span className="font-black text-xl text-emerald-600 font-mono">
                           RP {srv.price.toLocaleString('id-ID')}
                         </span>
                       </div>
@@ -366,28 +366,28 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                       {/* Optional Counter Controls when selected */}
                       {isSelected ? (
                         <div
-                          className="flex items-center gap-1.5 bg-white border border-emerald-300 rounded-lg p-0.5"
+                          className="flex items-center gap-1.5 bg-white border border-emerald-300 rounded-lg p-1 shadow-2xs"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <button
                             onClick={() => handleUpdateQty(srv.id, -1)}
-                            className="w-5 h-5 flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded text-xs font-bold"
+                            className="w-6 h-6 flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded text-sm font-bold"
                           >
                             -
                           </button>
-                          <span className="font-mono text-xs font-bold px-1 text-slate-900">
+                          <span className="font-mono text-base font-bold px-1.5 text-slate-900">
                             {qty}
                           </span>
                           <button
                             onClick={() => handleUpdateQty(srv.id, 1)}
-                            className="w-5 h-5 flex items-center justify-center text-emerald-700 hover:bg-emerald-100 rounded text-xs font-bold"
+                            className="w-6 h-6 flex items-center justify-center text-emerald-700 hover:bg-emerald-100 rounded text-sm font-bold"
                           >
                             +
                           </button>
                         </div>
                       ) : (
-                        <div className="w-5 h-5 rounded-full border border-slate-300 flex items-center justify-center text-slate-300">
-                          <Plus className="w-3 h-3" />
+                        <div className="w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-slate-300 hover:border-emerald-600 hover:text-emerald-600 transition-colors">
+                          <Plus className="w-3.5 h-3.5" />
                         </div>
                       )}
                     </div>
@@ -396,13 +396,13 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
               })}
             </section>
 
-            {/* Area Ringkasan Pembayaran Ringkas (Exact Match to User's Style) */}
-            <section className="bg-slate-50 border-t border-slate-100 px-5 py-3 flex justify-between items-center shrink-0">
+            {/* Area Ringkasan Pembayaran Ringkas (Exact Match to User's Style with 16px - 24px Font) */}
+            <section className="bg-slate-50 border-t border-slate-100 px-5 py-3.5 flex justify-between items-center shrink-0">
               <div>
-                <p className="text-[11px] text-slate-500 uppercase tracking-wider font-medium">
+                <p className="text-sm text-slate-500 uppercase tracking-wider font-semibold">
                   Total Tagihan ({Object.values(selectedServices).reduce((a, b) => a + b, 0)} Tindakan)
                 </p>
-                <p className="font-bold text-base text-slate-900 font-mono" id="grand-total">
+                <p className="font-black text-2xl text-slate-900 font-mono" id="grand-total">
                   RP {grandTotal.toLocaleString('id-ID')}
                 </p>
               </div>
@@ -411,7 +411,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
               <button
                 onClick={handleOpenCheckout}
                 disabled={grandTotal <= 0}
-                className={`bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-lg shadow-sm transition active:scale-98 ${
+                className={`bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-sm transition active:scale-98 cursor-pointer ${
                   grandTotal <= 0 ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
@@ -428,60 +428,60 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
           <div className="flex-1 flex flex-col overflow-hidden">
             <div className="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <h2 className="font-bold text-sm uppercase text-slate-900 tracking-tight">
+                <h2 className="font-bold text-xl uppercase text-slate-900 tracking-tight">
                   Buku Rekam Medis Pasien Warga
                 </h2>
-                <p className="text-xs text-slate-500">
+                <p className="text-base text-slate-500 mt-0.5">
                   Terintegrasi dengan NIK & Buku Induk WargaQu RT 04
                 </p>
               </div>
               <button
                 onClick={() => setIsAddPatientOpen(true)}
-                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg flex items-center gap-1 shadow-2xs"
+                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold rounded-xl flex items-center gap-1.5 shadow-xs cursor-pointer"
               >
-                <Plus className="w-3.5 h-3.5" />
+                <Plus className="w-4 h-4" />
                 <span>Pasien Baru</span>
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-2 divide-y divide-slate-100">
+            <div className="flex-1 overflow-y-auto px-5 py-3 divide-y divide-slate-100">
               {patients.map((pat) => (
                 <div
                   key={pat.id}
-                  className="py-3.5 flex justify-between items-center hover:bg-slate-50 transition-colors"
+                  className="py-4 flex justify-between items-center hover:bg-slate-50 transition-colors"
                 >
-                  <div className="space-y-0.5">
+                  <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-bold text-sm text-slate-900 uppercase tracking-tight">
+                      <h3 className="font-bold text-lg text-slate-900 uppercase tracking-tight">
                         {pat.name}
                       </h3>
-                      <span className="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.2 rounded font-mono font-medium">
+                      <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono font-medium">
                         {pat.gender} · {pat.age} Th
                       </span>
-                      <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.2 rounded">
-                        Gol. Darah: {pat.bloodType}
+                      <span className="text-xs text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded">
+                        Gol: {pat.bloodType}
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-500">
-                      {pat.blockNumber} · NIK: <span className="font-mono">{pat.nik}</span>
+                    <p className="text-base text-slate-600">
+                      {pat.blockNumber} · NIK: <span className="font-mono font-medium">{pat.nik}</span>
                     </p>
 
                     {pat.allergies && (
-                      <p className="text-[11px] text-amber-700 italic">
+                      <p className="text-base text-amber-700 italic">
                         Catatan Alergi: {pat.allergies}
                       </p>
                     )}
                   </div>
 
-                  <div className="text-right flex items-center gap-2">
+                  <div className="text-right flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => {
                         setSelectedPatient(pat);
                         setActiveNav('kasir');
                         showNotification(`Pasien ${pat.name} dipilih untuk tindakan.`);
                       }}
-                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg shadow-2xs"
+                      className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-base font-bold rounded-xl shadow-xs cursor-pointer"
                     >
                       Pilih ke Kasir
                     </button>
@@ -498,57 +498,57 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
         {activeNav === 'laporan' && (
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Summary KPI Strip */}
-            <div className="bg-slate-50 border-b border-slate-100 px-5 py-3 grid grid-cols-2 gap-3 text-xs">
+            <div className="bg-slate-50 border-b border-slate-100 px-5 py-3.5 grid grid-cols-2 gap-4 text-base">
               <div>
-                <p className="text-[11px] text-slate-500 uppercase tracking-wider font-medium">
+                <p className="text-sm text-slate-500 uppercase tracking-wider font-semibold">
                   Total Pendapatan Medis
                 </p>
-                <p className="font-bold text-base text-emerald-600 font-mono">
+                <p className="font-black text-2xl text-emerald-600 font-mono mt-0.5">
                   RP {invoices.reduce((sum, i) => sum + i.total, 0).toLocaleString('id-ID')}
                 </p>
               </div>
 
               <div>
-                <p className="text-[11px] text-slate-500 uppercase tracking-wider font-medium">
+                <p className="text-sm text-slate-500 uppercase tracking-wider font-semibold">
                   Pasien Terlayani
                 </p>
-                <p className="font-bold text-base text-slate-900 font-mono">
+                <p className="font-black text-2xl text-slate-900 font-mono mt-0.5">
                   {invoices.length} Kunjungan
                 </p>
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-5 py-2 divide-y divide-slate-100">
+            <div className="flex-1 overflow-y-auto px-5 py-3 divide-y divide-slate-100">
               {invoices.map((inv) => (
                 <div
                   key={inv.id}
                   onClick={() => setPaidInvoice(inv)}
-                  className="py-3.5 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors"
+                  className="py-4 flex justify-between items-center hover:bg-slate-50 cursor-pointer transition-colors"
                 >
-                  <div className="space-y-0.5">
+                  <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-bold text-slate-500">
+                      <span className="font-mono text-sm font-bold text-slate-500">
                         {inv.invoiceNumber}
                       </span>
-                      <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded uppercase">
+                      <span className="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded uppercase">
                         {inv.paymentMethod.replace('_', ' ')}
                       </span>
                     </div>
 
-                    <h3 className="font-bold text-sm text-slate-900 uppercase tracking-tight">
+                    <h3 className="font-bold text-lg text-slate-900 uppercase tracking-tight">
                       {inv.patientName} ({inv.patientBlock})
                     </h3>
 
-                    <p className="text-xs text-slate-500">
+                    <p className="text-base text-slate-600">
                       {inv.items.map((i) => `${i.name} (x${i.qty})`).join(', ')}
                     </p>
                   </div>
 
                   <div className="text-right">
-                    <span className="font-bold text-sm text-emerald-600 font-mono">
+                    <span className="font-black text-xl text-emerald-600 font-mono">
                       RP {inv.total.toLocaleString('id-ID')}
                     </span>
-                    <div className="text-[10px] text-slate-400 mt-0.5">
+                    <div className="text-sm text-slate-400 mt-0.5">
                       {new Date(inv.createdAt).toLocaleDateString('id-ID')}
                     </div>
                   </div>
@@ -564,22 +564,22 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
         {activeNav === 'pengaturan' && (
           <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
             <div className="border-b border-slate-100 pb-3">
-              <h2 className="font-bold text-sm uppercase text-slate-900 tracking-tight">
+              <h2 className="font-bold text-xl uppercase text-slate-900 tracking-tight">
                 Pengaturan Faskes KlinikQu
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-base text-slate-500 mt-0.5">
                 Konfigurasi pos layanan medis & nomor izin operasional
               </p>
             </div>
 
-            <div className="space-y-3 text-xs">
+            <div className="space-y-4 text-base">
               <div>
                 <label className="font-bold text-slate-700 block">ID Registrasi Perangkat</label>
                 <input
                   type="text"
                   value={deviceId}
                   disabled
-                  className="w-full mt-1 p-2.5 rounded-lg border border-slate-200 bg-slate-100 font-mono font-bold text-slate-600"
+                  className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 bg-slate-100 font-mono font-bold text-slate-600 text-base"
                 />
               </div>
 
@@ -589,7 +589,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                   type="text"
                   value={doctorName}
                   onChange={(e) => setDoctorName(e.target.value)}
-                  className="w-full mt-1 p-2.5 rounded-lg border border-slate-200 text-xs font-medium"
+                  className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 text-base font-medium"
                 />
               </div>
 
@@ -598,13 +598,13 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                 <input
                   type="text"
                   defaultValue="Klinik Pratama AppQu RT 04 Graha Kencana"
-                  className="w-full mt-1 p-2.5 rounded-lg border border-slate-200 text-xs font-medium"
+                  className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 text-base font-medium"
                 />
               </div>
 
-              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 space-y-1 text-xs">
-                <span className="font-bold text-emerald-900 block">Integrasi Printer Thermal:</span>
-                <p className="text-[11px] text-emerald-800">
+              <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-1.5 text-base">
+                <span className="font-bold text-emerald-900 block text-lg">Integrasi Printer Thermal:</span>
+                <p className="text-base text-emerald-800">
                   Printer Thermal Bluetooth 58mm/80mm siap mencetak nota kuitansi medis dan resep obat
                   dengan format standar ESC/POS.
                 </p>
@@ -612,7 +612,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
 
               <button
                 onClick={() => showNotification('Pengaturan KlinikQu berhasil disimpan.')}
-                className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg uppercase tracking-wider"
+                className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base rounded-xl uppercase tracking-wider cursor-pointer"
               >
                 Simpan Perubahan
               </button>
@@ -622,47 +622,95 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
       </main>
 
       {/* ========================================================= */}
-      {/* NAVBAR BAWAH (MOBILE FIRST NAVIGATION) - PRECISE MATCH    */}
+      {/* NAVBAR BAWAH (MOBILE FIRST NAVIGATION) - HANYA IKON       */}
       {/* ========================================================= */}
-      <nav className="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 h-16 flex justify-around items-center px-2 z-20 text-slate-600">
+      <nav className="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 h-16 flex justify-around items-center px-4 z-20 text-slate-600 shadow-xs select-none">
         <button
           onClick={() => setActiveNav('kasir')}
-          className={`flex flex-col items-center justify-center flex-1 h-full font-semibold text-[10px] uppercase tracking-wider transition ${
-            activeNav === 'kasir' ? 'text-emerald-600' : 'text-slate-500 hover:text-emerald-600'
+          title="Kasir"
+          aria-label="Kasir"
+          className={`flex items-center justify-center flex-1 h-full transition-all cursor-pointer relative ${
+            activeNav === 'kasir' ? 'text-emerald-600' : 'text-slate-400 hover:text-emerald-600'
           }`}
         >
-          <span className="text-lg mb-0.5">⚡</span>
-          <span>Kasir</span>
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+              activeNav === 'kasir'
+                ? 'bg-emerald-50 text-emerald-600 scale-105 shadow-2xs'
+                : 'hover:bg-slate-50'
+            }`}
+          >
+            <span className="text-2xl leading-none">⚡</span>
+          </div>
+          {activeNav === 'kasir' && (
+            <span className="absolute bottom-1 w-2 h-1 rounded-full bg-emerald-600"></span>
+          )}
         </button>
 
         <button
           onClick={() => setActiveNav('pasien')}
-          className={`flex flex-col items-center justify-center flex-1 h-full font-medium text-[10px] uppercase tracking-wider transition ${
-            activeNav === 'pasien' ? 'text-emerald-600 font-semibold' : 'text-slate-500 hover:text-emerald-600'
+          title="Pasien"
+          aria-label="Pasien"
+          className={`flex items-center justify-center flex-1 h-full transition-all cursor-pointer relative ${
+            activeNav === 'pasien' ? 'text-emerald-600' : 'text-slate-400 hover:text-emerald-600'
           }`}
         >
-          <span className="text-lg mb-0.5">📋</span>
-          <span>Pasien</span>
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+              activeNav === 'pasien'
+                ? 'bg-emerald-50 text-emerald-600 scale-105 shadow-2xs'
+                : 'hover:bg-slate-50'
+            }`}
+          >
+            <span className="text-2xl leading-none">📋</span>
+          </div>
+          {activeNav === 'pasien' && (
+            <span className="absolute bottom-1 w-2 h-1 rounded-full bg-emerald-600"></span>
+          )}
         </button>
 
         <button
           onClick={() => setActiveNav('laporan')}
-          className={`flex flex-col items-center justify-center flex-1 h-full font-medium text-[10px] uppercase tracking-wider transition ${
-            activeNav === 'laporan' ? 'text-emerald-600 font-semibold' : 'text-slate-500 hover:text-emerald-600'
+          title="Laporan"
+          aria-label="Laporan"
+          className={`flex items-center justify-center flex-1 h-full transition-all cursor-pointer relative ${
+            activeNav === 'laporan' ? 'text-emerald-600' : 'text-slate-400 hover:text-emerald-600'
           }`}
         >
-          <span className="text-lg mb-0.5">📊</span>
-          <span>Laporan</span>
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+              activeNav === 'laporan'
+                ? 'bg-emerald-50 text-emerald-600 scale-105 shadow-2xs'
+                : 'hover:bg-slate-50'
+            }`}
+          >
+            <span className="text-2xl leading-none">📊</span>
+          </div>
+          {activeNav === 'laporan' && (
+            <span className="absolute bottom-1 w-2 h-1 rounded-full bg-emerald-600"></span>
+          )}
         </button>
 
         <button
           onClick={() => setActiveNav('pengaturan')}
-          className={`flex flex-col items-center justify-center flex-1 h-full font-medium text-[10px] uppercase tracking-wider transition ${
-            activeNav === 'pengaturan' ? 'text-emerald-600 font-semibold' : 'text-slate-500 hover:text-emerald-600'
+          title="Pengaturan"
+          aria-label="Pengaturan"
+          className={`flex items-center justify-center flex-1 h-full transition-all cursor-pointer relative ${
+            activeNav === 'pengaturan' ? 'text-emerald-600' : 'text-slate-400 hover:text-emerald-600'
           }`}
         >
-          <span className="text-lg mb-0.5">⚙️</span>
-          <span>Pengaturan</span>
+          <div
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all ${
+              activeNav === 'pengaturan'
+                ? 'bg-emerald-50 text-emerald-600 scale-105 shadow-2xs'
+                : 'hover:bg-slate-50'
+            }`}
+          >
+            <span className="text-2xl leading-none">⚙️</span>
+          </div>
+          {activeNav === 'pengaturan' && (
+            <span className="absolute bottom-1 w-2 h-1 rounded-full bg-emerald-600"></span>
+          )}
         </button>
       </nav>
 
@@ -671,9 +719,9 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
       {/* ========================================================= */}
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3">
-          <div className="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl animate-in fade-in zoom-in-95">
-            <div className="flex items-center justify-between border-b pb-2">
-              <h3 className="font-bold text-sm text-slate-900 uppercase tracking-tight">
+          <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between border-b pb-3">
+              <h3 className="font-bold text-xl text-slate-900 uppercase tracking-tight">
                 Pembayaran Tagihan Medis
               </h3>
               <button
@@ -684,26 +732,26 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
               </button>
             </div>
 
-            <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 text-xs space-y-1">
+            <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 text-base space-y-1.5">
               <div className="flex justify-between text-slate-500">
                 <span>Nama Pasien:</span>
                 <span className="font-bold text-slate-900">
                   {selectedPatient ? selectedPatient.name : 'Pasien Umum'}
                 </span>
               </div>
-              <div className="flex justify-between text-slate-500">
+              <div className="flex justify-between text-slate-500 items-center">
                 <span>Total Tagihan:</span>
-                <span className="font-bold text-emerald-600 font-mono text-sm">
+                <span className="font-black text-emerald-600 font-mono text-2xl">
                   RP {grandTotal.toLocaleString('id-ID')}
                 </span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+              <label className="text-base font-bold text-slate-700 uppercase tracking-wider block">
                 Metode Pembayaran
               </label>
-              <div className="grid grid-cols-3 gap-1.5 text-xs">
+              <div className="grid grid-cols-3 gap-2 text-base">
                 {[
                   { id: 'tunai', label: 'Tunai' },
                   { id: 'qris', label: 'QRIS' },
@@ -713,7 +761,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                     key={m.id}
                     type="button"
                     onClick={() => setPaymentMethod(m.id as any)}
-                    className={`py-2 rounded-lg font-bold uppercase tracking-wider transition-all ${
+                    className={`py-2.5 rounded-xl font-bold uppercase tracking-wider transition-all cursor-pointer ${
                       paymentMethod === m.id
                         ? 'bg-emerald-600 text-white shadow-xs'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -727,18 +775,18 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
 
             {paymentMethod === 'tunai' && (
               <div>
-                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                <label className="text-base font-bold text-slate-700 uppercase tracking-wider block">
                   Uang Diterima (Rp)
                 </label>
                 <input
                   type="number"
                   value={cashGiven}
                   onChange={(e) => setCashGiven(Number(e.target.value))}
-                  className="w-full mt-1 p-2.5 rounded-lg border border-slate-200 font-mono font-bold text-sm"
+                  className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 font-mono font-bold text-xl"
                 />
-                <div className="flex justify-between text-xs mt-1 text-slate-500">
+                <div className="flex justify-between text-base mt-1.5 text-slate-500">
                   <span>Kembalian:</span>
-                  <span className="font-mono font-bold text-slate-900">
+                  <span className="font-mono font-black text-slate-900 text-lg">
                     RP {Math.max(0, cashGiven - grandTotal).toLocaleString('id-ID')}
                   </span>
                 </div>
@@ -746,7 +794,7 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
             )}
 
             <div>
-              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+              <label className="text-base font-bold text-slate-700 uppercase tracking-wider block">
                 Catatan Diagnosa / Obat
               </label>
               <textarea
@@ -754,13 +802,13 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                 onChange={(e) => setCheckoutNotes(e.target.value)}
                 placeholder="Contoh: Obat diminum 3x sehari sesudah makan..."
                 rows={2}
-                className="w-full mt-1 p-2 rounded-lg border border-slate-200 text-xs"
+                className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 text-base"
               />
             </div>
 
             <button
               onClick={handleConfirmPayment}
-              className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-sm active:scale-98"
+              className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base uppercase tracking-wider rounded-xl shadow-sm active:scale-98 cursor-pointer"
             >
               Konfirmasi & Cetak Kwitansi
             </button>
@@ -773,18 +821,18 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
       {/* ========================================================= */}
       {paidInvoice && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3">
-          <div className="bg-white rounded-2xl w-full max-w-sm p-5 space-y-4 shadow-2xl animate-in fade-in zoom-in-95">
+          <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl animate-in fade-in zoom-in-95">
             <div className="text-center border-b border-slate-200 pb-3">
-              <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest">
+              <span className="text-sm font-bold text-emerald-600 uppercase tracking-widest">
                 KlinikQu — Layanan Medis Warga
               </span>
-              <h3 className="font-bold text-base text-slate-900 mt-0.5">
+              <h3 className="font-black text-xl text-slate-900 mt-1">
                 Kwitansi Medis Lunas
               </h3>
-              <p className="text-[11px] font-mono text-slate-400">{paidInvoice.invoiceNumber}</p>
+              <p className="text-sm font-mono text-slate-400 mt-0.5">{paidInvoice.invoiceNumber}</p>
             </div>
 
-            <div className="text-xs space-y-1 text-slate-600">
+            <div className="text-base space-y-1.5 text-slate-600">
               <div className="flex justify-between">
                 <span>Pasien:</span>
                 <span className="font-bold text-slate-900">{paidInvoice.patientName}</span>
@@ -800,11 +848,11 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
             </div>
 
             {/* List Item Nota */}
-            <div className="border-t border-b border-slate-100 py-2 divide-y divide-slate-100 text-xs">
+            <div className="border-t border-b border-slate-100 py-2.5 divide-y divide-slate-100 text-base">
               {paidInvoice.items.map((it) => (
-                <div key={it.id} className="py-1.5 flex justify-between">
+                <div key={it.id} className="py-2 flex justify-between">
                   <span>
-                    {it.name} <span className="text-slate-400">x{it.qty}</span>
+                    {it.name} <span className="text-slate-400 font-semibold">x{it.qty}</span>
                   </span>
                   <span className="font-mono font-bold text-slate-900">
                     RP {(it.price * it.qty).toLocaleString('id-ID')}
@@ -813,9 +861,9 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
               ))}
             </div>
 
-            <div className="flex justify-between items-center text-sm font-bold">
+            <div className="flex justify-between items-center text-lg font-bold">
               <span className="uppercase tracking-tight text-slate-700">Total Bayar:</span>
-              <span className="font-mono text-emerald-600 text-base">
+              <span className="font-mono text-emerald-600 text-2xl font-black">
                 RP {paidInvoice.total.toLocaleString('id-ID')}
               </span>
             </div>
@@ -826,14 +874,14 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
                   window.print();
                   showNotification('Struk medis dikirim ke printer thermal.');
                 }}
-                className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
                 <span>Cetak Nota</span>
               </button>
               <button
                 onClick={() => setPaidInvoice(null)}
-                className="py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider rounded-lg"
+                className="py-3 px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-base uppercase tracking-wider rounded-xl cursor-pointer"
               >
                 Tutup
               </button>
@@ -847,9 +895,9 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
       {/* ========================================================= */}
       {isAddPatientOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3">
-          <div className="bg-white rounded-2xl w-full max-w-sm p-5 space-y-3 shadow-2xl animate-in fade-in zoom-in-95">
-            <div className="flex items-center justify-between border-b pb-2">
-              <h3 className="font-bold text-sm text-slate-900 uppercase tracking-tight">
+          <div className="bg-white rounded-3xl w-full max-w-sm p-5 space-y-4 shadow-2xl animate-in fade-in zoom-in-95">
+            <div className="flex items-center justify-between border-b pb-3">
+              <h3 className="font-bold text-xl text-slate-900 uppercase tracking-tight">
                 Daftar Pasien Baru
               </h3>
               <button
@@ -860,58 +908,58 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleAddPatient} className="space-y-2.5 text-xs">
+            <form onSubmit={handleAddPatient} className="space-y-3 text-base">
               <div>
-                <label className="font-bold text-slate-700">Nama Pasien</label>
+                <label className="font-bold text-slate-700 block">Nama Pasien</label>
                 <input
                   type="text"
                   value={newPatientName}
                   onChange={(e) => setNewPatientName(e.target.value)}
                   placeholder="Nama sesuai KTP..."
-                  className="w-full mt-1 p-2 rounded-lg border border-slate-200"
+                  className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 text-base"
                   required
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2.5">
                 <div>
-                  <label className="font-bold text-slate-700">NIK</label>
+                  <label className="font-bold text-slate-700 block">NIK</label>
                   <input
                     type="text"
                     value={newPatientNik}
                     onChange={(e) => setNewPatientNik(e.target.value)}
                     placeholder="3201..."
-                    className="w-full mt-1 p-2 rounded-lg border border-slate-200 font-mono"
+                    className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 font-mono text-base"
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-slate-700">Blok Rumah</label>
+                  <label className="font-bold text-slate-700 block">Blok Rumah</label>
                   <input
                     type="text"
                     value={newPatientBlock}
                     onChange={(e) => setNewPatientBlock(e.target.value)}
                     placeholder="Blok C2 No. 04"
-                    className="w-full mt-1 p-2 rounded-lg border border-slate-200"
+                    className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 text-base"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2.5">
                 <div>
-                  <label className="font-bold text-slate-700">Usia (Tahun)</label>
+                  <label className="font-bold text-slate-700 block">Usia (Tahun)</label>
                   <input
                     type="number"
                     value={newPatientAge}
                     onChange={(e) => setNewPatientAge(Number(e.target.value))}
-                    className="w-full mt-1 p-2 rounded-lg border border-slate-200 font-mono"
+                    className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 font-mono text-base"
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-slate-700">Jenis Kelamin</label>
+                  <label className="font-bold text-slate-700 block">Jenis Kelamin</label>
                   <select
                     value={newPatientGender}
                     onChange={(e) => setNewPatientGender(e.target.value as any)}
-                    className="w-full mt-1 p-2 rounded-lg border border-slate-200"
+                    className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 text-base"
                   >
                     <option value="L">Laki-laki</option>
                     <option value="P">Perempuan</option>
@@ -920,19 +968,19 @@ export const KlinikQuView: React.FC<KlinikQuViewProps> = ({
               </div>
 
               <div>
-                <label className="font-bold text-slate-700">Riwayat Alergi Obat</label>
+                <label className="font-bold text-slate-700 block">Riwayat Alergi Obat</label>
                 <input
                   type="text"
                   value={newPatientAllergy}
                   onChange={(e) => setNewPatientAllergy(e.target.value)}
                   placeholder="Contoh: Alergi penisilin..."
-                  className="w-full mt-1 p-2 rounded-lg border border-slate-200"
+                  className="w-full mt-1.5 p-3 rounded-xl border border-slate-200 text-base"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full mt-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-sm"
+                className="w-full mt-2 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base uppercase tracking-wider rounded-xl shadow-sm cursor-pointer"
               >
                 Simpan Pasien
               </button>

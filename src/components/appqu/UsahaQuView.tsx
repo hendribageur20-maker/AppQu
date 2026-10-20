@@ -122,44 +122,44 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
       {/* ========================================================= */}
       {/* QUAD MASTER SWITCH CARDS: BAKSOQU, BENGKELQU, KLINIKQU, RITELQU */}
       {/* ========================================================= */}
-      <div className="p-3 bg-white border-b border-stone-200 shadow-2xs shrink-0 space-y-2">
+      <div className="p-3 bg-white border-b border-stone-200 shadow-2xs shrink-0 space-y-2.5">
         {/* Switch Master Header with Title, Status & Navigation Arrows */}
         <div className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-1.5 text-xs text-stone-700 font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+          <div className="flex items-center gap-2 text-base text-stone-800 font-bold uppercase tracking-wider">
+            <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
             <span className="truncate">Switch Master Unit Usaha</span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
-            <span className="text-[10px] text-stone-400 font-medium hidden xs:inline">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-xs text-stone-500 font-semibold hidden xs:inline">
               4 Sistem
             </span>
             {/* Scroll Navigation Buttons for easy left/right navigation */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={handleScrollPrev}
-                className="w-6 h-6 rounded-lg bg-stone-100 hover:bg-stone-200 active:scale-95 text-stone-600 flex items-center justify-center transition-all border border-stone-200"
+                className="w-7 h-7 rounded-lg bg-stone-100 hover:bg-stone-200 active:scale-95 text-stone-700 flex items-center justify-center transition-all border border-stone-200 cursor-pointer"
                 title="Geser ke kiri"
                 aria-label="Geser ke kiri"
               >
-                <ChevronLeft className="w-3.5 h-3.5" />
+                <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 type="button"
                 onClick={handleScrollNext}
-                className="w-6 h-6 rounded-lg bg-stone-100 hover:bg-stone-200 active:scale-95 text-stone-600 flex items-center justify-center transition-all border border-stone-200"
+                className="w-7 h-7 rounded-lg bg-stone-100 hover:bg-stone-200 active:scale-95 text-stone-700 flex items-center justify-center transition-all border border-stone-200 cursor-pointer"
                 title="Geser ke kanan"
                 aria-label="Geser ke kanan"
               >
-                <ChevronRight className="w-3.5 h-3.5" />
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         </div>
 
         {/* Quick Jump Unit Usaha Pills (Instant Switch/Scroll) */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs">
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 text-base">
           {[
             { label: 'BaksoQu', sub: 'POS Kuliner', color: 'bg-amber-100 text-amber-900 border-amber-300' },
             { label: 'BengkelQu', sub: 'Motor', color: 'bg-emerald-100 text-emerald-900 border-emerald-300' },
@@ -170,19 +170,19 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
               key={idx}
               type="button"
               onClick={() => scrollToCard(idx)}
-              className={`px-2.5 py-1 rounded-full border text-[10px] font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1 ${
+              className={`px-3 py-1.5 rounded-full border text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-1 ${
                 activeCardIdx === idx
                   ? `${tab.color} ring-1 ring-stone-400 font-extrabold shadow-2xs`
-                  : 'bg-stone-50 text-stone-500 border-stone-200 hover:bg-stone-100'
+                  : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100'
               }`}
             >
               <span>{tab.label}</span>
               <span className="opacity-70 font-normal">({tab.sub})</span>
             </button>
           ))}
-          <span className="text-[10px] text-stone-400 font-normal ml-auto shrink-0 flex items-center gap-0.5">
+          <span className="text-xs text-stone-400 font-normal ml-auto shrink-0 flex items-center gap-1">
             <span>Geser</span>
-            <ArrowRight className="w-2.5 h-2.5" />
+            <ArrowRight className="w-3 h-3" />
           </span>
         </div>
 
@@ -197,26 +197,26 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
               setActiveCardIdx(Math.min(3, Math.max(0, index)));
             }
           }}
-          className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-2.5 overflow-x-auto pb-2 pt-0.5 no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x"
+          className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 overflow-x-auto pb-2 pt-0.5 no-scrollbar snap-x snap-mandatory scroll-smooth touch-pan-x"
         >
           {/* Card 1: BaksoQu 1.0 POS Kasir */}
-          <div className="w-[82vw] max-w-[310px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-amber-600 via-amber-700 to-red-800 rounded-2xl p-3.5 text-white shadow-md relative overflow-hidden flex flex-col justify-between">
+          <div className="w-[85vw] max-w-[320px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-amber-600 via-amber-700 to-red-800 rounded-2xl p-4 text-white shadow-md relative overflow-hidden flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-[9px] bg-red-950/60 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded-full font-mono">
+                <span className="text-xs bg-red-950/60 text-amber-300 border border-amber-400/30 px-2.5 py-0.5 rounded-full font-mono font-bold">
                   POS Kuliner
                 </span>
-                <span className="text-[10px] text-amber-200 font-medium">H. Sutisna (Blok C1)</span>
+                <span className="text-xs text-amber-200 font-medium">H. Sutisna (Blok C1)</span>
               </div>
 
-              <div className="mt-2">
-                <h3 className="text-sm font-black tracking-tight text-white flex items-center gap-1.5">
+              <div className="mt-2.5">
+                <h3 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
                   <span>Bakso Qu 1.0</span>
-                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-white text-stone-900">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-white text-stone-900">
                     POS
                   </span>
                 </h3>
-                <p className="text-[11px] text-amber-100 mt-0.5 line-clamp-2">
+                <p className="text-base text-amber-100 mt-1 line-clamp-2">
                   Denah meja interaktif, transaksi kasir, cetak Thermal Bluetooth 58/80mm, stok bahan & omset.
                 </p>
               </div>
@@ -224,33 +224,33 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
 
             <button
               onClick={onSwitchToBaksoQu}
-              className="mt-3 w-full py-2 bg-white hover:bg-amber-50 text-stone-900 font-black text-xs rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-transform active:scale-95 cursor-pointer"
+              className="mt-3.5 w-full py-2.5 bg-white hover:bg-amber-50 text-stone-900 font-black text-base rounded-xl shadow-xs flex items-center justify-center gap-2 transition-transform active:scale-95 cursor-pointer"
             >
-              <Store className="w-3.5 h-3.5 text-amber-700" />
+              <Store className="w-4 h-4 text-amber-700" />
               <span>Buka POS BaksoQu</span>
-              <ArrowRight className="w-3.5 h-3.5 text-amber-700" />
+              <ArrowRight className="w-4 h-4 text-amber-700" />
             </button>
           </div>
 
           {/* Card 2: BengkelQu (Asisten Pintar & Bengkel Motor) */}
-          <div className="w-[82vw] max-w-[310px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-emerald-800 via-emerald-900 to-teal-950 rounded-2xl p-3.5 text-white shadow-md relative overflow-hidden flex flex-col justify-between border border-emerald-700/60">
+          <div className="w-[85vw] max-w-[320px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-emerald-800 via-emerald-900 to-teal-950 rounded-2xl p-4 text-white shadow-md relative overflow-hidden flex flex-col justify-between border border-emerald-700/60">
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-[9px] bg-amber-400 text-stone-950 font-bold px-2 py-0.5 rounded-full">
+                <span className="text-xs bg-amber-400 text-stone-950 font-bold px-2.5 py-0.5 rounded-full">
                   100% Gratis
                 </span>
-                <span className="text-[10px] text-emerald-200 font-medium">Mas Yanto (Blok D1)</span>
+                <span className="text-xs text-emerald-200 font-medium">Mas Yanto (Blok D1)</span>
               </div>
 
-              <div className="mt-2">
-                <h3 className="text-sm font-black tracking-tight text-white flex items-center gap-1.5">
+              <div className="mt-2.5">
+                <h3 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
                   <Wrench className="w-4 h-4 text-amber-300" />
                   <span>BengkelQu</span>
-                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-500/30 text-emerald-200 border border-emerald-400/40">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-200 border border-emerald-400/40">
                     Asisten Pintar
                   </span>
                 </h3>
-                <p className="text-[11px] text-emerald-100/90 mt-0.5 line-clamp-2">
+                <p className="text-base text-emerald-100 mt-1 line-clamp-2">
                   Smart Estimator KM, ceklis fisik, stok re-order point, WA generator, katalog.html, & AI Care.
                 </p>
               </div>
@@ -258,33 +258,33 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
 
             <button
               onClick={onSwitchToBengkelQu}
-              className="mt-3 w-full py-2 bg-amber-400 hover:bg-amber-300 text-stone-950 font-black text-xs rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-transform active:scale-95 cursor-pointer"
+              className="mt-3.5 w-full py-2.5 bg-amber-400 hover:bg-amber-300 text-stone-950 font-black text-base rounded-xl shadow-xs flex items-center justify-center gap-2 transition-transform active:scale-95 cursor-pointer"
             >
-              <Wrench className="w-3.5 h-3.5 text-stone-950" />
+              <Wrench className="w-4 h-4 text-stone-950" />
               <span>Buka BengkelQu</span>
-              <ArrowRight className="w-3.5 h-3.5 text-stone-950" />
+              <ArrowRight className="w-4 h-4 text-stone-950" />
             </button>
           </div>
 
           {/* Card 3: KlinikQu (Kasir & Layanan Medis Faskes) */}
-          <div className="w-[82vw] max-w-[310px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-emerald-600 via-teal-700 to-slate-900 rounded-2xl p-3.5 text-white shadow-md relative overflow-hidden flex flex-col justify-between border border-emerald-500/50">
+          <div className="w-[85vw] max-w-[320px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-emerald-600 via-teal-700 to-slate-900 rounded-2xl p-4 text-white shadow-md relative overflow-hidden flex flex-col justify-between border border-emerald-500/50">
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-[9px] bg-emerald-950/80 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-mono">
+                <span className="text-xs bg-emerald-950/80 text-emerald-300 border border-emerald-400/30 px-2.5 py-0.5 rounded-full font-mono font-bold">
                   Faskes Medis Warga
                 </span>
-                <span className="text-[10px] text-emerald-200 font-medium">dr. Farhan Malik (Blok B2)</span>
+                <span className="text-xs text-emerald-200 font-medium">dr. Farhan Malik (Blok B2)</span>
               </div>
 
-              <div className="mt-2">
-                <h3 className="text-sm font-black tracking-tight text-white flex items-center gap-1.5">
+              <div className="mt-2.5">
+                <h3 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
                   <Activity className="w-4 h-4 text-emerald-300" />
                   <span>KlinikQu</span>
-                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-white text-emerald-950">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-white text-emerald-950">
                     Kasir & Medis
                   </span>
                 </h3>
-                <p className="text-[11px] text-emerald-100/90 mt-0.5 line-clamp-2">
+                <p className="text-base text-emerald-100 mt-1 line-clamp-2">
                   Pemeriksaan dokter umum, tindakan injeksi, infus, laboratorium cepat, rekam medis warga, & kasir minimalis.
                 </p>
               </div>
@@ -292,33 +292,33 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
 
             <button
               onClick={onSwitchToKlinikQu}
-              className="mt-3 w-full py-2 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-xs rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-transform active:scale-95 cursor-pointer"
+              className="mt-3.5 w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white font-black text-base rounded-xl shadow-xs flex items-center justify-center gap-2 transition-transform active:scale-95 cursor-pointer"
             >
-              <Activity className="w-3.5 h-3.5 text-white" />
+              <Activity className="w-4 h-4 text-white" />
               <span>Buka KlinikQu</span>
-              <ArrowRight className="w-3.5 h-3.5 text-white" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </button>
           </div>
 
           {/* Card 4: RitelQu (Kasir & Toko Kelontong Warga) */}
-          <div className="w-[82vw] max-w-[310px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-950 rounded-2xl p-3.5 text-white shadow-md relative overflow-hidden flex flex-col justify-between border border-blue-400/40">
+          <div className="w-[85vw] max-w-[320px] sm:w-auto shrink-0 snap-start bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-950 rounded-2xl p-4 text-white shadow-md relative overflow-hidden flex flex-col justify-between border border-blue-400/40">
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-[9px] bg-blue-950/80 text-blue-200 border border-blue-400/30 px-2 py-0.5 rounded-full font-mono">
+                <span className="text-xs bg-blue-950/80 text-blue-200 border border-blue-400/30 px-2.5 py-0.5 rounded-full font-mono font-bold">
                   Toko Kelontong
                 </span>
-                <span className="text-[10px] text-blue-100 font-medium">Bu RT (Blok A1)</span>
+                <span className="text-xs text-blue-100 font-medium">Bu RT (Blok A1)</span>
               </div>
 
-              <div className="mt-2">
-                <h3 className="text-sm font-black tracking-tight text-white flex items-center gap-1.5">
+              <div className="mt-2.5">
+                <h3 className="text-lg font-black tracking-tight text-white flex items-center gap-2">
                   <ShoppingBag className="w-4 h-4 text-blue-200" />
                   <span>RitelQu</span>
-                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-white text-blue-950">
+                  <span className="text-xs font-bold px-2 py-0.5 rounded bg-white text-blue-950">
                     Kasir & Stok
                   </span>
                 </h3>
-                <p className="text-[11px] text-blue-100/90 mt-0.5 line-clamp-2">
+                <p className="text-base text-blue-100 mt-1 line-clamp-2">
                   Minyak goreng, beras premium, gas elpiji, air galon, SKU barcode, manajemen inventaris, & kasir cepat.
                 </p>
               </div>
@@ -326,11 +326,11 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
 
             <button
               onClick={onSwitchToRitelQu}
-              className="mt-3 w-full py-2 bg-blue-500 hover:bg-blue-400 text-white font-black text-xs rounded-xl shadow-xs flex items-center justify-center gap-1.5 transition-transform active:scale-95 cursor-pointer"
+              className="mt-3.5 w-full py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-black text-base rounded-xl shadow-xs flex items-center justify-center gap-2 transition-transform active:scale-95 cursor-pointer"
             >
-              <ShoppingBag className="w-3.5 h-3.5 text-white" />
+              <ShoppingBag className="w-4 h-4 text-white" />
               <span>Buka RitelQu</span>
-              <ArrowRight className="w-3.5 h-3.5 text-white" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </button>
           </div>
         </div>
@@ -342,8 +342,8 @@ export const UsahaQuView: React.FC<UsahaQuViewProps> = ({
               key={dotIdx}
               type="button"
               onClick={() => scrollToCard(dotIdx)}
-              className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                activeCardIdx === dotIdx ? 'w-5 bg-emerald-600' : 'w-1.5 bg-stone-300'
+              className={`h-2 rounded-full transition-all cursor-pointer ${
+                activeCardIdx === dotIdx ? 'w-6 bg-emerald-600' : 'w-2 bg-stone-300'
               }`}
               aria-label={`Lihat unit ${dotIdx + 1}`}
             />
