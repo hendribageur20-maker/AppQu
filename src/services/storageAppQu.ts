@@ -1,0 +1,859 @@
+import {
+  UserProfile,
+  ResidentData,
+  FeedPost,
+  AgendaEvent,
+  KasTransaction,
+  SuratPengantar,
+  LocalBusiness,
+  EmergencyLog,
+  PatrolCheckpoint,
+  PatrolLog,
+  MusibahItem,
+  PiketTask,
+  RoleTier,
+  RoleDetail,
+} from '../types';
+
+import bannerImg from '../assets/images/appqu_community_banner_1792459328196.jpg';
+import baksoUratImg from '../assets/images/bakso_urat_jumbo_1790260587825.jpg';
+import baksoKomplitImg from '../assets/images/bakso_komplit_1790260605375.jpg';
+import esTehImg from '../assets/images/es_teh_manis_1790260616776.jpg';
+
+const STORAGE_KEYS = {
+  CURRENT_USER: 'appqu_current_user_v1',
+  FEEDS: 'appqu_feeds_v1',
+  AGENDA: 'appqu_agenda_v1',
+  KAS: 'appqu_kas_v1',
+  LETTERS: 'appqu_letters_v1',
+  RESIDENTS: 'appqu_residents_v1',
+  BUSINESSES: 'appqu_businesses_v1',
+  EMERGENCIES: 'appqu_emergencies_v1',
+  CHECKPOINTS: 'appqu_checkpoints_v1',
+  PATROL_LOGS: 'appqu_patrol_logs_v1',
+  MUSIBAH: 'appqu_musibah_v1',
+  PIKET: 'appqu_piket_v1',
+};
+
+// Preset Users for RBAC Demonstration
+export const PRESET_USERS: Record<string, UserProfile> = {
+  warga: {
+    id: 'usr-warga-1',
+    nik: '3201123456780001',
+    noKk: '3201123456780099',
+    name: 'Budi Santoso',
+    roleTier: 'warga',
+    roleDetail: 'warga',
+    roleTitle: 'Warga RT 04',
+    blockNumber: 'Blok C3 No. 12',
+    phone: '0812-8877-6655',
+    emergencyContact: '0812-8877-6656 (Ibu Sri - Istri)',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Karyawan Swasta',
+    joinedAt: '2021-03-15',
+  },
+  ketua_rt: {
+    id: 'usr-rt-1',
+    nik: '3201123456780002',
+    noKk: '3201123456780098',
+    name: 'Ir. H. Hendra Gunawan',
+    roleTier: 'pengurus',
+    roleDetail: 'ketua_rt',
+    roleTitle: 'Ketua RT 04 / Paguyuban (Primary Approver)',
+    blockNumber: 'Blok A1 No. 01',
+    phone: '0811-2233-4455',
+    emergencyContact: '0811-2233-4456 (Ibu RT)',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Wiraswasta / Konsultan',
+    joinedAt: '2019-01-10',
+  },
+  bendahara: {
+    id: 'usr-bendahara-1',
+    nik: '3201123456780003',
+    noKk: '3201123456780097',
+    name: 'Dra. Hj. Nuraini M.Si',
+    roleTier: 'pengurus',
+    roleDetail: 'bendahara',
+    roleTitle: 'Bendahara Paguyuban (Finance Approver)',
+    blockNumber: 'Blok B2 No. 05',
+    phone: '0813-9988-7766',
+    emergencyContact: '0813-9988-7767',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Akuntan Publik',
+    joinedAt: '2019-05-20',
+  },
+  sekretaris: {
+    id: 'usr-sekretaris-1',
+    nik: '3201123456780004',
+    noKk: '3201123456780096',
+    name: 'Ahmad Fauzi S.Kom',
+    roleTier: 'pengurus',
+    roleDetail: 'sekretaris',
+    roleTitle: 'Sekretaris RT (Admin & Verifikator Surat)',
+    blockNumber: 'Blok B1 No. 08',
+    phone: '0812-3344-5566',
+    emergencyContact: '0812-3344-5567',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Software Engineer',
+    joinedAt: '2020-08-14',
+  },
+  satpam: {
+    id: 'usr-satpam-1',
+    nik: '3201123456780005',
+    noKk: '3201123456780095',
+    name: 'Pak Agus Suparman',
+    roleTier: 'koordinator',
+    roleDetail: 'koor_keamanan',
+    roleTitle: 'Koordinator Keamanan & Satpam Pos',
+    blockNumber: 'Pos Keamanan Gerbang Utama',
+    phone: '0857-1122-3344',
+    emergencyContact: '0857-1122-3345',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Kepala Regu Keamanan',
+    joinedAt: '2018-06-01',
+  },
+  governance: {
+    id: 'usr-lurah-1',
+    nik: '3201123456780006',
+    noKk: '3201123456780094',
+    name: 'Bambang Priyono S.STP (Lurah)',
+    roleTier: 'governance',
+    roleDetail: 'camat_lurah',
+    roleTitle: 'Level Governance (Lurah Sukamaju)',
+    blockNumber: 'Kantor Kelurahan',
+    phone: '0812-9900-1122',
+    emergencyContact: '0812-9900-1123',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Aparatur Sipil Negara',
+    joinedAt: '2017-01-01',
+  },
+};
+
+// Seed Buku Induk Warga
+export const SEED_RESIDENTS: ResidentData[] = [
+  {
+    ...PRESET_USERS.warga,
+    familyMembersCount: 4,
+    gender: 'L',
+    birthDate: '1985-05-12',
+    religion: 'Islam',
+    bloodType: 'O',
+  },
+  {
+    ...PRESET_USERS.ketua_rt,
+    familyMembersCount: 3,
+    gender: 'L',
+    birthDate: '1974-11-20',
+    religion: 'Islam',
+    bloodType: 'A',
+  },
+  {
+    ...PRESET_USERS.bendahara,
+    familyMembersCount: 4,
+    gender: 'P',
+    birthDate: '1978-03-14',
+    religion: 'Islam',
+    bloodType: 'B',
+  },
+  {
+    ...PRESET_USERS.sekretaris,
+    familyMembersCount: 2,
+    gender: 'L',
+    birthDate: '1992-09-08',
+    religion: 'Islam',
+    bloodType: 'AB',
+  },
+  {
+    id: 'res-5',
+    nik: '3201123456780010',
+    noKk: '3201123456780080',
+    name: 'H. Sutisna (Owner Bakso Qu)',
+    roleTier: 'warga',
+    roleDetail: 'warga',
+    roleTitle: 'Pelaku Usaha UMKM Warga',
+    blockNumber: 'Blok C1 No. 04',
+    phone: '0812-3456-7890',
+    emergencyContact: '0812-3456-7899',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Pengusaha Kuliner (Bakso Qu)',
+    joinedAt: '2019-04-10',
+    familyMembersCount: 5,
+    gender: 'L',
+    birthDate: '1970-02-18',
+    religion: 'Islam',
+    bloodType: 'O',
+  },
+  {
+    id: 'res-6',
+    nik: '3201123456780011',
+    noKk: '3201123456780081',
+    name: 'Siti Rahmawati',
+    roleTier: 'warga',
+    roleDetail: 'warga',
+    roleTitle: 'Warga RT 04',
+    blockNumber: 'Blok B3 No. 16',
+    phone: '0819-0987-6543',
+    emergencyContact: '0819-0987-6544',
+    isVerified: true,
+    residentStatus: 'kontrak',
+    occupation: 'Guru SD',
+    joinedAt: '2023-01-05',
+    familyMembersCount: 2,
+    gender: 'P',
+    birthDate: '1995-12-01',
+    religion: 'Islam',
+    bloodType: 'B',
+  },
+  {
+    id: 'res-7',
+    nik: '3201123456780012',
+    noKk: '3201123456780082',
+    name: 'Joko Prabowo',
+    roleTier: 'warga',
+    roleDetail: 'warga',
+    roleTitle: 'Warga RT 04 (Service AC)',
+    blockNumber: 'Blok D2 No. 09',
+    phone: '0852-4455-6677',
+    emergencyContact: '0852-4455-6678',
+    isVerified: true,
+    residentStatus: 'tetap',
+    occupation: 'Teknisi Elektronik & AC',
+    joinedAt: '2020-03-22',
+    familyMembersCount: 3,
+    gender: 'L',
+    birthDate: '1988-07-25',
+    religion: 'Islam',
+    bloodType: 'A',
+  },
+];
+
+// Seed Feeds & Polls
+export const SEED_FEEDS: FeedPost[] = [
+  {
+    id: 'feed-1',
+    authorId: 'usr-rt-1',
+    authorName: 'Ir. H. Hendra Gunawan (Ketua RT 04)',
+    authorRole: 'Ketua RT / Primary Approver',
+    postType: 'pengumuman',
+    title: 'Pengumuman Resmi: Jadwal Kerja Bakti Akbar & Fogging DBD Menyambut Musim Hujan',
+    content:
+      'Assalamu’alaikum Wr. Wb. Seluruh warga RT 04 / RW 09 Graha Kencana. Mengingat curah hujan mulai meningkat, pengurus RT bersama Koordinator Lingkungan menjadwalkan kerja bakti massal pembersihan selokan dan saluran air serta pelaksanaan fogging nyamuk DBD pada hari Minggu pagi pukul 06.30 WIB di Balai Warga. Diharapkan perwakilan tiap rumah membawa peralatan kebersihan.',
+    isPinned: true,
+    createdAt: '2026-10-18T08:00:00Z',
+    likes: 34,
+    hasLiked: false,
+    commentsCount: 12,
+  },
+  {
+    id: 'feed-2',
+    authorId: 'usr-rt-1',
+    authorName: 'Pengurus RT 04',
+    authorRole: 'Koordinator Lingkungan',
+    postType: 'polling',
+    title: 'Polling Suara Warga: Penambahan Lampu Penerangan Jalan (PJU) Solar Cell di Blok C & D',
+    content:
+      'Untuk mengoptimalkan keamanan malam hari dan penghematan listrik kas RT, kami mengajukan usulan pengadaan 8 titik lampu PJU Solar Cell otomatis di sepanjang gang Blok C dan D.',
+    isPinned: false,
+    createdAt: '2026-10-17T14:30:00Z',
+    likes: 27,
+    commentsCount: 8,
+    pollData: {
+      question: 'Apakah Anda menyetujui alokasi kas RT untuk 8 titik PJU Solar Cell otomatis?',
+      options: [
+        { id: 'opt-1', text: 'Setuju sekali, lingkungan jadi lebih terang & aman', votes: 42 },
+        { id: 'opt-2', text: 'Setuju dengan catatan dicoba 4 titik dulu', votes: 11 },
+        { id: 'opt-3', text: 'Perlu musyawarah offline terlebih dahulu', votes: 3 },
+      ],
+      userVotedOptionId: 'opt-1',
+      totalVotes: 56,
+    },
+  },
+  {
+    id: 'feed-3',
+    authorId: 'usr-warga-1',
+    authorName: 'Budi Santoso',
+    authorRole: 'Warga Blok C3',
+    postType: 'diskusi',
+    title: 'Prakarsa Bank Sampah & Pemilahan Sampah Organik Mandiri',
+    content:
+      'Bapak/Ibu sekalian, bagaimana jika kita mulai program pilah sampah anorganik (kardus, botol plastik) di balai warga setiap Sabtu ke-2? Hasil penjualannya bisa langsung disalurkan ke kas kegiatan pemuda RT.',
+    isPinned: false,
+    createdAt: '2026-10-16T19:15:00Z',
+    likes: 18,
+    commentsCount: 6,
+  },
+];
+
+// Seed Agenda RT
+export const SEED_AGENDA: AgendaEvent[] = [
+  {
+    id: 'agenda-1',
+    title: 'Kerja Bakti Akbar & Fogging DBD Lingkungan',
+    date: 'Minggu, 25 Okt 2026',
+    time: '06:30 - 10:00 WIB',
+    location: 'Titik Kumpul Balai Warga RT 04',
+    description: 'Pembersihan saluran drainase utama, pemotongan dahan pohon rimbun, dan fogging nyamuk demam berdarah.',
+    category: 'kerja_bakti',
+    rsvpCount: { hadir: 38, tidak: 4 },
+    userRsvp: 'hadir',
+    isCompleted: false,
+    presensiCode: 'QR-KB-20261025',
+  },
+  {
+    id: 'agenda-2',
+    title: 'Rapat Pleno Triwulan & Pertanggungjawaban Kas RT',
+    date: 'Jumat, 30 Okt 2026',
+    time: '19:30 - 21:30 WIB',
+    location: 'Ruang Serbaguna Balai Warga & Hybrid Zoom',
+    description: 'Penyampaian laporan realisasi kas periode Q3 2026 oleh Bendahara dan evaluasi keamanan ronda malam.',
+    category: 'rapat',
+    rsvpCount: { hadir: 29, tidak: 7 },
+    userRsvp: undefined,
+    isCompleted: false,
+  },
+  {
+    id: 'agenda-3',
+    title: 'Senam Sehat Bugar Bersama Warga & Lansia',
+    date: 'Sabtu, 31 Okt 2026',
+    time: '06:00 - 07:30 WIB',
+    location: 'Lapangan Depan Pos Ronda Blok A',
+    description: 'Senam aerobik bersama instruktur profesional dilanjutkan sarapan bubur kacang ijo gratis sumbangan warga.',
+    category: 'senam',
+    rsvpCount: { hadir: 45, tidak: 2 },
+    userRsvp: 'hadir',
+    isCompleted: false,
+  },
+];
+
+// Seed Kas RT (Transparency ledger)
+export const SEED_KAS: KasTransaction[] = [
+  {
+    id: 'kas-1',
+    userId: 'usr-warga-1',
+    userName: 'Budi Santoso',
+    blockNumber: 'Blok C3 No. 12',
+    type: 'iuran',
+    title: 'Iuran Warga Periode Oktober 2026',
+    amount: 50000,
+    date: '2026-10-15',
+    status: 'verified',
+    category: 'Iuran Bulanan',
+    proofUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400',
+    ocrData: {
+      bank: 'BCA Mobile',
+      sender: 'BUDI SANTOSO',
+      amount: 50000,
+      transactionTime: '2026-10-15 08:32:10',
+      matchScore: 99.4,
+    },
+  },
+  {
+    id: 'kas-2',
+    userId: 'res-5',
+    userName: 'H. Sutisna (Bakso Qu)',
+    blockNumber: 'Blok C1 No. 04',
+    type: 'iuran',
+    title: 'Iuran Warga + Retribusi Kebersihan Usaha Okt 2026',
+    amount: 150000,
+    date: '2026-10-14',
+    status: 'verified',
+    category: 'Iuran & Retribusi Usaha',
+  },
+  {
+    id: 'kas-3',
+    userName: 'Pengurus RT 04 (Sie Lingkungan)',
+    blockNumber: 'Pengurus',
+    type: 'pengeluaran',
+    title: 'Pembelian Cat Gapura & Lampu PJU Blok B',
+    amount: 650000,
+    date: '2026-10-12',
+    status: 'verified',
+    category: 'Pemeliharaan Fasum',
+    notes: 'Nota toko bangunan No. TB-882 terlampir di arsip sekretariat.',
+  },
+  {
+    id: 'kas-4',
+    userName: 'Pengurus RT 04 (Sie Keamanan)',
+    blockNumber: 'Pengurus',
+    type: 'pengeluaran',
+    title: 'Honorarium Petugas Satpam & Ronda Malam (3 Personel)',
+    amount: 4500000,
+    date: '2026-10-01',
+    status: 'verified',
+    category: 'Keamanan Lingkungan',
+  },
+  {
+    id: 'kas-5',
+    userId: 'res-6',
+    userName: 'Siti Rahmawati',
+    blockNumber: 'Blok B3 No. 16',
+    type: 'iuran',
+    title: 'Iuran Warga Periode Oktober 2026 (Pending Approval)',
+    amount: 50000,
+    date: '2026-10-19',
+    status: 'pending',
+    category: 'Iuran Bulanan',
+    ocrData: {
+      bank: 'Mandiri Livin',
+      sender: 'SITI RAHMAWATI',
+      amount: 50000,
+      transactionTime: '2026-10-19 14:10:02',
+      matchScore: 98.2,
+    },
+  },
+];
+
+// Seed Surat Pengantar Digital
+export const SEED_LETTERS: SuratPengantar[] = [
+  {
+    id: 'surat-1',
+    letterNumber: '04/SP-RT04/X/2026',
+    userId: 'usr-warga-1',
+    userName: 'Budi Santoso',
+    nik: '3201123456780001',
+    noKk: '3201123456780099',
+    blockNumber: 'Blok C3 No. 12',
+    type: 'skck',
+    purpose: 'Pengurusan Perpanjangan SKCK di Polsek Sukamaju untuk Syarat Promosi Jabatan',
+    status: 'approved',
+    notes: 'Pemohon merupakan warga tetap yang berkelakuan baik dan tertib administrasi.',
+    createdAt: '2026-10-14T09:00:00Z',
+    approvedAt: '2026-10-14T11:20:00Z',
+    approvedBy: 'Ir. H. Hendra Gunawan (Ketua RT 04)',
+    digitalSignatureQr: 'VERIFIED-RT04-04-SP-RT04-X-2026-BUDI-SANTOSO',
+  },
+  {
+    id: 'surat-2',
+    letterNumber: '05/SP-RT04/X/2026',
+    userId: 'res-6',
+    userName: 'Siti Rahmawati',
+    nik: '3201123456780011',
+    noKk: '3201123456780081',
+    blockNumber: 'Blok B3 No. 16',
+    type: 'domisili',
+    purpose: 'Surat Keterangan Domisili Tinggal Sementara untuk Keperluan Syarat Sertifikasi Guru',
+    status: 'pending_ketua',
+    notes: 'Sudah diverifikasi berkas KTP dan buku induk oleh Sekretaris. Menunggu tanda tangan Ketua RT.',
+    createdAt: '2026-10-18T10:15:00Z',
+  },
+  {
+    id: 'surat-3',
+    letterNumber: '06/SP-RT04/X/2026',
+    userId: 'res-7',
+    userName: 'Joko Prabowo',
+    nik: '3201123456780012',
+    noKk: '3201123456780082',
+    blockNumber: 'Blok D2 No. 09',
+    type: 'izin_usaha',
+    purpose: 'Pengantar Izin Usaha Mikro Jasa Service AC & Pendingin (NIB Online OSS)',
+    status: 'pending_sekretaris',
+    createdAt: '2026-10-19T07:45:00Z',
+  },
+];
+
+// Seed UsahaQu (Local Businesses) with BaksoQu Master POS integrated
+export const SEED_BUSINESSES: LocalBusiness[] = [
+  {
+    id: 'biz-baksoqu',
+    name: 'Bakso Qu 1.0 (Unit Usaha Unggulan)',
+    category: 'kuliner',
+    ownerName: 'H. Sutisna (Warga Blok C1)',
+    blockNumber: 'Blok C1 No. 04 / Ruko Barat',
+    phone: '0812-3456-7890',
+    description: 'Spesialis Bakso Urat & Daging Sapi 100% Pilihan Asli dengan Kuah Rempah Istimewa. Dilengkapi Sistem Kasir POS Mandiri, Meja Interaktif, Cetak Thermal Bluetooth 58mm/80mm, & Stok Bahan.',
+    rating: 4.9,
+    isPosActive: true,
+    posModuleKey: 'baksoqu',
+    badge: 'POS Terintegrasi',
+    imageUrl: baksoUratImg,
+    products: [
+      { id: 'p-1', name: 'Bakso Urat Jumbo Super', price: 25000, unit: 'porsi', description: 'Bakso urat jumbo kenyal dengan kuah kaldu sapi kaya rempah' },
+      { id: 'p-2', name: 'Bakso Komplit Telur', price: 28000, unit: 'porsi', description: 'Bakso telur ayam utuh + pangsit goreng renyah + tahu' },
+      { id: 'p-3', name: 'Es Teh Manis Melati Solo', price: 5000, unit: 'gelas', description: 'Teh melati seduh harum gula asli' },
+    ],
+  },
+  {
+    id: 'biz-sembako',
+    name: 'Warung Berkah Sembako Bu RT',
+    category: 'sembako',
+    ownerName: 'Ibu Hj. Hendra (Warga Blok A1)',
+    blockNumber: 'Blok A1 No. 02',
+    phone: '0813-8822-1100',
+    description: 'Penyedia kebutuhan harian warga: beras pandan wangi, minyak goreng, telur ayam kampung segar, tabung gas 3kg, dan galon air mineral. Pesan antar gratis untuk wilayah RT 04.',
+    rating: 4.8,
+    badge: 'Antar Bebas Ongkir',
+    imageUrl: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=500',
+    products: [
+      { id: 'p-4', name: 'Beras Pandan Wangi Premium 5kg', price: 74000, unit: 'karung', description: 'Beras pulen wangi kualitas super' },
+      { id: 'p-5', name: 'Minyak Goreng Pouch 2 Liter', price: 34000, unit: 'pouch', description: 'Minyak goreng sawit jernih 2x penyaringan' },
+      { id: 'p-6', name: 'Telur Ayam Segar 1kg', price: 28000, unit: 'kg', description: 'Telur ayam ras peternakan lokal segar' },
+    ],
+  },
+  {
+    id: 'biz-laundry',
+    name: 'Berkah Express Laundry & Dry Clean',
+    category: 'laundry',
+    ownerName: 'Mbak Dewi (Warga Blok B2)',
+    blockNumber: 'Blok B2 No. 11',
+    phone: '0858-7711-2299',
+    description: 'Jasa cuci kiloan harum higienis 1 hari selesai, cuci selimut/bedcover, setrika uap rapi tanpa kusut. Menggunakan deterjen ramah lingkungan.',
+    rating: 4.7,
+    imageUrl: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=500',
+    products: [
+      { id: 'p-7', name: 'Cuci Setrika Reguler 2 Hari', price: 7000, unit: 'kg', description: 'Pakaian wangi rapi terbungkus plastik sealer' },
+      { id: 'p-8', name: 'Cuci Kilat Express 5 Jam Jadi', price: 12000, unit: 'kg', description: 'Layanan darurat cepat kering dan setrika langsung' },
+      { id: 'p-9', name: 'Cuci Bedcover Jumbo', price: 25000, unit: 'pcs', description: 'Pembersihan mendalam anti tungau' },
+    ],
+  },
+  {
+    id: 'biz-service',
+    name: 'Jaya Teknik Service AC & Kulkas',
+    category: 'jasa',
+    ownerName: 'Pak Joko Prabowo (Warga Blok D2)',
+    blockNumber: 'Blok D2 No. 09',
+    phone: '0852-4455-6677',
+    description: 'Servis panggilan spesialis pendingin rumah tangga: cuci AC split, tambah freon R32/R410, perbaikan modul inverter, dan servis kulkas 2 pintu bergaransi 30 hari.',
+    rating: 4.9,
+    imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=500',
+    products: [
+      { id: 'p-10', name: 'Cuci AC Split Standar 0.5 - 1 PK', price: 65000, unit: 'unit', description: 'Cuci evaporator indoor, pembersihan outdoor, dan cek tekanan' },
+      { id: 'p-11', name: 'Isi / Tambah Freon R32 Ramah Lingkungan', price: 120000, unit: 'layanan', description: 'Freon murni optimalisasi pendinginan maksimal' },
+    ],
+  },
+];
+
+// Seed SiagaQu (Internal Security, Patroli, Checkpoints, & CCTV)
+export const SEED_CHECKPOINTS: PatrolCheckpoint[] = [
+  {
+    id: 'cp-1',
+    code: 'CP-POS-UTAMA',
+    name: 'Pos Keamanan & Gerbang Utama',
+    locationDesc: 'Pintu gerbang portal utama depan akses masuk perumahan',
+    lastScannedAt: '2026-10-19T21:15:00Z',
+    lastScannedBy: 'Pak Agus Suparman (Satpam)',
+    status: 'safe',
+  },
+  {
+    id: 'cp-2',
+    code: 'CP-BLOK-A',
+    name: 'Sudut Perumahan Blok A (Belakang Taman)',
+    locationDesc: 'Pertigaan tiang PJU Blok A dekat rumah Ketua RT',
+    lastScannedAt: '2026-10-19T21:40:00Z',
+    lastScannedBy: 'Pak Agus Suparman (Satpam)',
+    status: 'safe',
+  },
+  {
+    id: 'cp-3',
+    code: 'CP-BLOK-C',
+    name: 'Area Drainase & Fasum Blok C',
+    locationDesc: 'Samping Balai Warga & Lapangan Badminton RT 04',
+    lastScannedAt: '2026-10-19T22:05:00Z',
+    lastScannedBy: 'Pak Agus Suparman (Satpam)',
+    status: 'safe',
+  },
+  {
+    id: 'cp-4',
+    code: 'CP-PINTU-BELAKANG',
+    name: 'Pintu Keluar Belakang Blok D',
+    locationDesc: 'Pintu besi batas perkampungan luar (wajib dikunci jam 22.00)',
+    lastScannedAt: '2026-10-19T22:20:00Z',
+    lastScannedBy: 'Pak Agus Suparman (Satpam)',
+    status: 'safe',
+  },
+];
+
+export const SEED_PATROL_LOGS: PatrolLog[] = [
+  {
+    id: 'pl-1',
+    officerId: 'usr-satpam-1',
+    officerName: 'Pak Agus Suparman',
+    checkpointCode: 'CP-POS-UTAMA',
+    checkpointName: 'Pos Keamanan & Gerbang Utama',
+    condition: 'safe',
+    timestamp: '2026-10-19T21:15:00Z',
+    notes: 'Portal tertutup rapi, arus keluar masuk kendaraan tamu terdata dengan baik.',
+  },
+  {
+    id: 'pl-2',
+    officerId: 'usr-satpam-1',
+    officerName: 'Pak Agus Suparman',
+    checkpointCode: 'CP-BLOK-A',
+    checkpointName: 'Sudut Perumahan Blok A',
+    condition: 'safe',
+    timestamp: '2026-10-19T21:40:00Z',
+    notes: 'Suasana tenang, kendaraan warga terparkir aman di carport masing-masing.',
+  },
+  {
+    id: 'pl-3',
+    officerId: 'usr-satpam-1',
+    officerName: 'Pak Agus Suparman',
+    checkpointCode: 'CP-BLOK-C',
+    checkpointName: 'Area Drainase & Fasum Blok C',
+    condition: 'safe',
+    timestamp: '2026-10-19T22:05:00Z',
+    notes: 'Penerangan cukup, lampu balai warga padam sesuai jadwal hemat energi.',
+  },
+];
+
+// Seed Musibah & Dompet Solidaritas Digital
+export const SEED_MUSIBAH: MusibahItem[] = [
+  {
+    id: 'msb-1',
+    title: 'Berita Duka Cita (Lelayu): Telah Berpulang Bapak H. Sudirman',
+    victimFamily: 'Keluarga Besar Alm. Bpk H. Sudirman',
+    blockNumber: 'Blok B1 No. 04',
+    date: '18 Oktober 2026',
+    type: 'kematian',
+    description:
+      'Innalillahi wa inna ilaihi raji’un. Telah berpulang ke rahmatullah tetangga kita Bpk. H. Sudirman (68 th) pada hari Minggu pukul 04.30 WIB di RSUD. Jenazah telah disemayamkan di rumah duka dan dimakamkan di TPU Karanganyar. Mohon doa keikhlasan dari seluruh warga RT 04.',
+    donationTarget: 5000000,
+    donationCollected: 4850000,
+    isUrgent: true,
+    donators: [
+      { id: 'dn-1', name: 'Budi Santoso', amount: 200000, time: '18 Okt, 08:30', block: 'Blok C3' },
+      { id: 'dn-2', name: 'Ir. H. Hendra Gunawan', amount: 500000, time: '18 Okt, 09:15', block: 'Blok A1' },
+      { id: 'dn-3', name: 'H. Sutisna (Bakso Qu)', amount: 1000000, time: '18 Okt, 10:00', block: 'Blok C1' },
+      { id: 'dn-4', name: 'Kas Paguyuban RT 04 (Alokasi Duka)', amount: 1500000, time: '18 Okt, 10:30', block: 'Kas RT' },
+      { id: 'dn-5', name: 'Dra. Hj. Nuraini', amount: 300000, time: '18 Okt, 11:45', block: 'Blok B2' },
+      { id: 'dn-6', name: 'Joko Prabowo', amount: 150000, time: '18 Okt, 13:20', block: 'Blok D2' },
+      { id: 'dn-7', name: 'Hamba Allah (Warga Blok B)', amount: 200000, time: '18 Okt, 15:10', block: 'Blok B' },
+      { id: 'dn-8', name: 'Siti Rahmawati', amount: 100000, time: '18 Okt, 16:40', block: 'Blok B3' },
+    ],
+  },
+];
+
+export const SEED_PIKET: PiketTask[] = [
+  {
+    id: 'pkt-1',
+    musibahId: 'msb-1',
+    taskType: 'takziah',
+    assignedFamily: 'Keluarga Bpk. Hendra (Blok A1) & Bpk. Budi (Blok C3)',
+    blockNumber: 'Blok A & C',
+    shiftTime: 'Malam ke-1 s/d ke-3 (19:30 WIB)',
+    isDone: true,
+  },
+  {
+    id: 'pkt-2',
+    musibahId: 'msb-1',
+    taskType: 'konsumsi_tenda',
+    assignedFamily: 'Ibu-ibu Dawis Melati Blok B (Sie Konsumsi)',
+    blockNumber: 'Blok B',
+    shiftTime: 'Persiapan konsumsi tahlilan harian',
+    isDone: true,
+  },
+  {
+    id: 'pkt-3',
+    musibahId: 'msb-1',
+    taskType: 'keamanan_parkir',
+    assignedFamily: 'Petugas Satpam Pos & Pemuda Karang Taruna',
+    blockNumber: 'Gerbang Masuk',
+    shiftTime: 'Pengaturan parkir pelayat mobil & motor',
+    isDone: true,
+  },
+  {
+    id: 'pkt-4',
+    musibahId: 'msb-1',
+    taskType: 'takziah',
+    assignedFamily: 'Keluarga Bpk. Joko (Blok D2) & Warga Blok D',
+    blockNumber: 'Blok D',
+    shiftTime: 'Malam ke-7 Doa Bersama (24 Okt)',
+    isDone: false,
+  },
+];
+
+// AppQu Storage Service
+export const AppQuStorageService = {
+  getCurrentUser(): UserProfile {
+    const raw = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
+    if (!raw) {
+      this.saveCurrentUser(PRESET_USERS.warga);
+      return PRESET_USERS.warga;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return PRESET_USERS.warga;
+    }
+  },
+
+  saveCurrentUser(user: UserProfile): void {
+    localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(user));
+  },
+
+  getResidents(): ResidentData[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.RESIDENTS);
+    if (!raw) {
+      this.saveResidents(SEED_RESIDENTS);
+      return SEED_RESIDENTS;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_RESIDENTS;
+    }
+  },
+
+  saveResidents(list: ResidentData[]): void {
+    localStorage.setItem(STORAGE_KEYS.RESIDENTS, JSON.stringify(list));
+  },
+
+  getFeeds(): FeedPost[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.FEEDS);
+    if (!raw) {
+      this.saveFeeds(SEED_FEEDS);
+      return SEED_FEEDS;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_FEEDS;
+    }
+  },
+
+  saveFeeds(feeds: FeedPost[]): void {
+    localStorage.setItem(STORAGE_KEYS.FEEDS, JSON.stringify(feeds));
+  },
+
+  getAgenda(): AgendaEvent[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.AGENDA);
+    if (!raw) {
+      this.saveAgenda(SEED_AGENDA);
+      return SEED_AGENDA;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_AGENDA;
+    }
+  },
+
+  saveAgenda(agenda: AgendaEvent[]): void {
+    localStorage.setItem(STORAGE_KEYS.AGENDA, JSON.stringify(agenda));
+  },
+
+  getKas(): KasTransaction[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.KAS);
+    if (!raw) {
+      this.saveKas(SEED_KAS);
+      return SEED_KAS;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_KAS;
+    }
+  },
+
+  saveKas(kas: KasTransaction[]): void {
+    localStorage.setItem(STORAGE_KEYS.KAS, JSON.stringify(kas));
+  },
+
+  getLetters(): SuratPengantar[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.LETTERS);
+    if (!raw) {
+      this.saveLetters(SEED_LETTERS);
+      return SEED_LETTERS;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_LETTERS;
+    }
+  },
+
+  saveLetters(letters: SuratPengantar[]): void {
+    localStorage.setItem(STORAGE_KEYS.LETTERS, JSON.stringify(letters));
+  },
+
+  getBusinesses(): LocalBusiness[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.BUSINESSES);
+    if (!raw) {
+      this.saveBusinesses(SEED_BUSINESSES);
+      return SEED_BUSINESSES;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_BUSINESSES;
+    }
+  },
+
+  saveBusinesses(list: LocalBusiness[]): void {
+    localStorage.setItem(STORAGE_KEYS.BUSINESSES, JSON.stringify(list));
+  },
+
+  getCheckpoints(): PatrolCheckpoint[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.CHECKPOINTS);
+    if (!raw) {
+      this.saveCheckpoints(SEED_CHECKPOINTS);
+      return SEED_CHECKPOINTS;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_CHECKPOINTS;
+    }
+  },
+
+  saveCheckpoints(list: PatrolCheckpoint[]): void {
+    localStorage.setItem(STORAGE_KEYS.CHECKPOINTS, JSON.stringify(list));
+  },
+
+  getPatrolLogs(): PatrolLog[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.PATROL_LOGS);
+    if (!raw) {
+      this.savePatrolLogs(SEED_PATROL_LOGS);
+      return SEED_PATROL_LOGS;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_PATROL_LOGS;
+    }
+  },
+
+  savePatrolLogs(list: PatrolLog[]): void {
+    localStorage.setItem(STORAGE_KEYS.PATROL_LOGS, JSON.stringify(list));
+  },
+
+  getMusibah(): MusibahItem[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.MUSIBAH);
+    if (!raw) {
+      this.saveMusibah(SEED_MUSIBAH);
+      return SEED_MUSIBAH;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_MUSIBAH;
+    }
+  },
+
+  saveMusibah(list: MusibahItem[]): void {
+    localStorage.setItem(STORAGE_KEYS.MUSIBAH, JSON.stringify(list));
+  },
+
+  getPiket(): PiketTask[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.PIKET);
+    if (!raw) {
+      this.savePiket(SEED_PIKET);
+      return SEED_PIKET;
+    }
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return SEED_PIKET;
+    }
+  },
+
+  savePiket(list: PiketTask[]): void {
+    localStorage.setItem(STORAGE_KEYS.PIKET, JSON.stringify(list));
+  },
+};
